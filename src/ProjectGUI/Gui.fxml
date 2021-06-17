@@ -2,13 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="799.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProjectGUI.Controller">
    <children>
       <ScrollPane fx:id="filtersPane" hbarPolicy="NEVER" layoutX="18.0" layoutY="38.0" prefHeight="318.0" prefWidth="200.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="200.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="200.0">
+               <children>
+                   <RangeSlider fx:id="rangeSliderPrice" layoutX="14.0" layoutY="14.0" />
+                   <Separator layoutX="14.0" layoutY="40.0" prefHeight="17.0" prefWidth="140.0" />
+               </children></AnchorPane>
         </content>
       </ScrollPane>
       <TableView fx:id="tableViewProducts" layoutX="233.0" layoutY="38.0" prefHeight="318.0" prefWidth="349.0">
