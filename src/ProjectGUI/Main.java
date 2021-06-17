@@ -1,4 +1,4 @@
-package sample;
+package ProjectGUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ public class Main extends Application {
     }
 
     private void initPrimaryStage(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GUI.fxml")));
         primaryStage.setTitle("Epey.com Clone");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
