@@ -17,7 +17,7 @@
             <TableColumn fx:id="columnPrice" prefWidth="89.0" text="Price" />
         </columns>
       </TableView>
-      <Button fx:id="buttonGetProducts" layoutX="18.0" layoutY="366.0" mnemonicParsing="false" text="Get Products" />
+      <Button fx:id="buttonGetProducts" layoutX="18.0" layoutY="366.0" mnemonicParsing="false" onAction="#getProductsPressed" text="Get Products" />
       <Button fx:id="buttonSortByPrice" layoutX="426.0" layoutY="366.0" mnemonicParsing="false" text="Sort By Price" />
       <Button fx:id="buttonCompare" layoutX="517.0" layoutY="366.0" mnemonicParsing="false" text="Compare" />
       <Label layoutX="233.0" layoutY="14.0" text="Products">
