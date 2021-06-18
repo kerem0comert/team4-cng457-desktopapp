@@ -1,7 +1,15 @@
 package ProjectGUI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,12 +20,75 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller implements Initializable {
 
 
     // *********************** Feature Product ***********************
+
+    @FXML
+    private TableView<BasicProductInfo> tableViewProducts;
+
+    @FXML
+    private TableColumn<BasicProductInfo,String> columnName;
+
+    @FXML
+    private TableColumn<BasicProductInfo,String> columnPrice;
+
+    public void initialize(URL location, ResourceBundle resources){
+        initTable();
+
+    }
+
+    private void initTable() {
+        initCols();
+    }
+
+    private void initCols() {
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        editableCols();
+    }
+
+    private void editableCols() {
+        columnName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        columnName.setOnEditCommit(e->{
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setName(e.getNewValue() );
+        });
+
+        columnPrice.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        columnPrice.setOnEditCommit(e->{
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setPrice(e.getNewValue() );
+        });
+
+       // tableViewProducts.setEditable(true);      // No need to have it editable
+
+    }
+
+    private void loadData(){        // Implement this functionality inside the controller, under the "add to table comments"
+
+        final ObservableList<BasicProductInfo> table_data = FXCollections.observableArrayList(
+                new BasicProductInfo("Jacob", "500"),
+                new BasicProductInfo("Isabella", "1000"),
+                new BasicProductInfo("Ethan", "1500")
+        );
+
+       /* columnName.setCellValueFactory(
+                new PropertyValueFactory<>("name")
+        );
+        columnPrice.setCellValueFactory(
+                new PropertyValueFactory<>("price")
+        );*/
+
+        tableViewProducts.setItems(table_data);
+
+    }
+
     public void getProductsPressed(ActionEvent event) throws IOException, ParseException {
 
         String response = "";
@@ -47,6 +118,10 @@ public class Controller {
 
         JSONObject jsonObjectBrand1 = (JSONObject) parser.parse(jsonObject.get("brand").toString()); // Parse the brand seperately
         System.out.println(jsonObjectBrand1.get("brandName") + " " + jsonObjectBrand1.get("brandId")); //Print the brand seperately
+
+        System.out.println("Phone: " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
+
+        loadData(); // Implement this logic in here, add all the phones and then load the Data into the table
 
         String reviewList ="";
         for(int i =0;i<reviews.size();i++){
@@ -106,6 +181,8 @@ public class Controller {
 
             JSONObject jsonObjectBrand2 = (JSONObject) parser.parse(jsonObject2.get("brand").toString());       // Parse the brand seperately
             System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
+
+            System.out.println("Phone: " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
 
             String reviewList2 ="";
             for(int j =0;j<reviews2.size();j++){
