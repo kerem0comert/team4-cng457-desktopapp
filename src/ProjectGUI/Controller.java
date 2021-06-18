@@ -16,6 +16,8 @@ import java.util.Scanner;
 
 public class Controller {
 
+
+    // *********************** Feature Product ***********************
     public void getProductsPressed(ActionEvent event) throws IOException, ParseException {
 
         String response = "";
@@ -59,13 +61,62 @@ public class Controller {
         JSONArray extraFeatures = (JSONArray) jsonObject.get("extraFeaturesList");
 
         String extraFeaturesList ="";
-        for(int i =0;i<reviews.size();i++){
+        for(int i =0;i<extraFeatures.size();i++){
             JSONObject temp = (JSONObject) extraFeatures.get(i);
             extraFeaturesList += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
             extraFeaturesList += "\n";
         }
 
         System.out.println(extraFeaturesList);
+
+        for(int i=1;i<array.size();i++){
+            String requestURL = "http://localhost:8080/getphone/" + array.get(i).toString();
+            String response2 = "";
+
+            HttpURLConnection connection2 = (HttpURLConnection)new URL(requestURL).openConnection();
+            connection2.setRequestMethod("GET");
+            int responsecode2 = connection2.getResponseCode();
+
+            if(responsecode2 == 200){
+                Scanner scanner = new Scanner(connection2.getInputStream());
+                while(scanner.hasNextLine()){
+                    response2 += scanner.nextLine();
+                    response2 += "\n";
+                }
+                scanner.close();
+            }
+            // Parse the remaining phones here !!
+
+            JSONObject jsonObject2 = (JSONObject) parser.parse(response2);
+
+            JSONArray reviews2 = (JSONArray) jsonObject2.get("reviewList");
+
+            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("brand") + " "+ jsonObject2.get("internalMemory"));
+
+            String reviewList2 ="";
+            for(int j =0;j<reviews2.size();j++){
+                JSONObject temp = (JSONObject) reviews2.get(j);
+                reviewList2 += temp.get("product") + " " + temp.get("rating") +  " " + temp.get("comment") + " " +  temp.get("reviewId");
+                reviewList2 += "\n";
+            }
+            System.out.println("*****************");
+            System.out.println(reviewList2);
+            System.out.println("*****************");
+
+
+            JSONArray extraFeatures2 = (JSONArray) jsonObject2.get("extraFeaturesList");
+
+            String extraFeaturesList2 ="";
+            for(int j =0;j<extraFeatures2.size();j++){
+                JSONObject temp = (JSONObject) extraFeatures2.get(j);
+                extraFeaturesList2 += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
+                extraFeaturesList2 += "\n";
+            }
+            System.out.println("*****************");
+            System.out.println(extraFeaturesList2);
+            System.out.println("*****************");
+        }
+
 
         // Insert the values into the table instead of creating an alert, alert is just used for testing
         // For the name column, we can use brandName + model
@@ -77,5 +128,8 @@ public class Controller {
         a.setContentText("Test Content");
         a.show();
     }
+
+
+    // *********************** Feature Product ***********************
 
 }
