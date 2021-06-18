@@ -89,7 +89,7 @@ public class Controller {
                             Integer.parseInt(textFieldBatteryLifeMin.getText()),
                             Integer.parseInt(textFieldBatteryLifeMax.getText()),
                     };
-                    Repository.getInstance().getComputers("myFilters");
+                    Repository.getInstance().getComputers(batteryLifeRange);
                     break;
                 case Constants.PHONE:
                     Integer[] internalMemoryRange = {
