@@ -121,7 +121,13 @@ public class Controller implements Initializable {
 
         System.out.println("Phone: " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
 
-        loadData(); // Implement this logic in here, add all the phones and then load the Data into the table
+        //loadData(); // Implement this logic in here, add all the phones and then load the Data into the table
+
+
+        ObservableList<BasicProductInfo> data = FXCollections.observableArrayList();
+        data.add(new BasicProductInfo(jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model"),jsonObject.get("price").toString()));
+
+
 
         String reviewList ="";
         for(int i =0;i<reviews.size();i++){
@@ -156,7 +162,7 @@ public class Controller implements Initializable {
         System.out.println("*****************");
 
 
-        for(int i=1;i<array.size();i++){
+        for(int i=1;i<array.size();i++){    // Get the remaining phones other than the first one
             String requestURL = "http://localhost:8080/getphone/" + array.get(i).toString();
             String response2 = "";
 
@@ -183,6 +189,9 @@ public class Controller implements Initializable {
             System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
 
             System.out.println("Phone: " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
+
+            data.add(new BasicProductInfo(jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model"),jsonObject2.get("price").toString()));
+
 
             String reviewList2 ="";
             for(int j =0;j<reviews2.size();j++){
@@ -214,7 +223,11 @@ public class Controller implements Initializable {
                 System.out.println(extraFeaturesList2);
 
             System.out.println("*****************");
+
+
         }
+
+        tableViewProducts.setItems(data);
 
 
         // Insert the values into the table instead of creating an alert, alert is just used for testing
