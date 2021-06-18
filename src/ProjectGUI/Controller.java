@@ -24,8 +24,14 @@ public class Controller {
     @FXML
     public void initialize(){
         toggleGroupProductType.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
-            System.out.println("Selected Radio Button: " + ((RadioButton)newToggle).getText());
-            if()
+            switch(((RadioButton) newToggle).getText()){
+                case Constants.COMPUTER:
+                    System.out.println("Computer: " + ((RadioButton)newToggle).getText());
+                    break;
+                case  Constants.PHONE:
+                    System.out.println("Phone: " + ((RadioButton)newToggle).getText());
+                    break;
+            }
                 });
     }
 

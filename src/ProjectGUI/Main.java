@@ -23,7 +23,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MyFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
         controller = loader.getController();
         controller.setStage(primaryStage);
     }
