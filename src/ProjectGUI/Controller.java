@@ -38,16 +38,15 @@ public class Controller {
         Object obj = parser.parse(response);
         JSONArray array = (JSONArray) obj;
 
-     //   System.out.println(response);
-
         String phone1 = array.get(0).toString();        // Just trying with first phone for now
-
         JSONObject jsonObject = (JSONObject) parser.parse(phone1);
-     //   System.out.println(jsonObject);
 
         JSONArray reviews = (JSONArray) jsonObject.get("reviewList");
 
-        System.out.println(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("brand") + " "+ jsonObject.get("internalMemory"));
+        System.out.println(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("internalMemory"));
+
+        JSONObject jsonObjectBrand1 = (JSONObject) parser.parse(jsonObject.get("brand").toString()); // Parse the brand seperately
+        System.out.println(jsonObjectBrand1.get("brandName") + " " + jsonObjectBrand1.get("brandId")); //Print the brand seperately
 
         String reviewList ="";
         for(int i =0;i<reviews.size();i++){
@@ -56,7 +55,14 @@ public class Controller {
             reviewList += "\n";
         }
 
-        System.out.println(reviewList);
+        System.out.println("Reviews:");
+
+        if(reviews.size()==0)
+            System.out.println("No reviews!");
+        else
+            System.out.println(reviewList);
+
+        System.out.println("*****************");
 
         JSONArray extraFeatures = (JSONArray) jsonObject.get("extraFeaturesList");
 
@@ -67,7 +73,13 @@ public class Controller {
             extraFeaturesList += "\n";
         }
 
-        System.out.println(extraFeaturesList);
+        System.out.println("ExtraFeatures:");
+        if(extraFeatures.size()==0)
+            System.out.println("No extra features!");
+        else
+            System.out.println(extraFeaturesList);
+        System.out.println("*****************");
+
 
         for(int i=1;i<array.size();i++){
             String requestURL = "http://localhost:8080/getphone/" + array.get(i).toString();
@@ -88,10 +100,12 @@ public class Controller {
             // Parse the remaining phones here !!
 
             JSONObject jsonObject2 = (JSONObject) parser.parse(response2);
-
             JSONArray reviews2 = (JSONArray) jsonObject2.get("reviewList");
 
-            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("brand") + " "+ jsonObject2.get("internalMemory"));
+            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("internalMemory"));
+
+            JSONObject jsonObjectBrand2 = (JSONObject) parser.parse(jsonObject2.get("brand").toString());       // Parse the brand seperately
+            System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
 
             String reviewList2 ="";
             for(int j =0;j<reviews2.size();j++){
@@ -99,8 +113,11 @@ public class Controller {
                 reviewList2 += temp.get("product") + " " + temp.get("rating") +  " " + temp.get("comment") + " " +  temp.get("reviewId");
                 reviewList2 += "\n";
             }
-            System.out.println("*****************");
-            System.out.println(reviewList2);
+            System.out.println("Reviews:");
+            if(reviews2.size()==0)
+                System.out.println("No reviews!");
+            else
+                System.out.println(reviewList2);
             System.out.println("*****************");
 
 
@@ -112,8 +129,13 @@ public class Controller {
                 extraFeaturesList2 += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
                 extraFeaturesList2 += "\n";
             }
-            System.out.println("*****************");
-            System.out.println(extraFeaturesList2);
+            System.out.println("ExtraFeatures:");
+
+            if(extraFeatures2.size()==0)
+                System.out.println("No extra features!");
+            else
+                System.out.println(extraFeaturesList2);
+
             System.out.println("*****************");
         }
 
