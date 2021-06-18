@@ -54,10 +54,11 @@ public class Controller {
         initGetProductsListener();
     }
 
+
+
     private void initToggleGroupListener() {
         paneFilterPhone.setVisible(false); //Initially not visible as computer is pre-selected
         selectedFilter = Constants.COMPUTER;
-
         toggleGroupProductType.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
             switch (((RadioButton) newToggle).getText()) {
                 case Constants.COMPUTER:
@@ -83,23 +84,32 @@ public class Controller {
 
     private void initGetProductsListener() {
         buttonGetProducts.setOnAction(e -> {
+            System.out.println("pressed");
             switch (selectedFilter) {
                 case Constants.COMPUTER:
                     Integer[] batteryLifeRange = {
-                            Integer.parseInt(textFieldBatteryLifeMin.getText()),
-                            Integer.parseInt(textFieldBatteryLifeMax.getText()),
+                            getValue(textFieldBatteryLifeMin),
+                            getValue(textFieldBatteryLifeMax)
                     };
-                    Repository.getInstance().getComputers("myFilters");
+                    Repository.getInstance().getComputers(batteryLifeRange);
                     break;
                 case Constants.PHONE:
                     Integer[] internalMemoryRange = {
-                            Integer.parseInt(textFieldInternalMemoryMin.getText()),
-                            Integer.parseInt(textFieldInternalMemoryMax.getText()),
+                            getValue(textFieldInternalMemoryMin),
+                            getValue(textFieldInternalMemoryMax),
                     };
                     Repository.getInstance().getPhones("myfilters");
                     break;
             }
         });
+    }
+
+    private Integer getValue(TextField textField){
+        try{
+            return Integer.parseInt(textField.getText());
+        }catch(Exception e){
+            return null; //If the text is empty, the casting would not succeed.
+        }
     }
 
 }

@@ -8,5 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="controlsfx-8.40.11" level="project" />
+    <orderEntry type="library" name="spring-web-5.3.8" level="project" />
+    <orderEntry type="library" name="httpclient-4.5.13" level="project" />
   </component>
 </module>
