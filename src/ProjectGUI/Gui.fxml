@@ -16,6 +16,11 @@
                         <ToggleGroup fx:id="toggleGroupProductType" />
                      </toggleGroup>
                   </RadioButton>
+                   <Label layoutX="15.0" layoutY="55.0" text="Price" />
+                   <TextField fx:id="textFieldPriceMin" layoutX="14.0" layoutY="75.0" prefHeight="25.0" prefWidth="64.0" />
+                   <TextField fx:id="textFieldPriceMax" layoutX="100.0" layoutY="75.0" prefHeight="25.0" prefWidth="64.0" />
+                   <Label layoutX="87.0" layoutY="75.0" text="-" />
+                   <Label layoutX="87.0" layoutY="35.0" text="-" />
                   <RadioButton fx:id="radioButtonPhone" layoutX="100.0" layoutY="22.0" mnemonicParsing="false" text="Phone" toggleGroup="$toggleGroupProductType" />
                   <Pane fx:id="paneFilterPhone" layoutY="192.0" prefHeight="139.0" prefWidth="200.0">
                      <children>
@@ -26,9 +31,9 @@
                      </children></Pane>
                    <Pane fx:id="paneFilterComputer" layoutY="192.0" prefHeight="139.0" prefWidth="200.0">
                        <children>
-                           <Label layoutX="15.0" layoutY="13.0" text="Battery Life" />
-                           <TextField fx:id="textFieldBatteryLifeMin" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="64.0" />
-                           <TextField fx:id="textFieldBatteryLifeMax" layoutX="100.0" layoutY="31.0" prefHeight="25.0" prefWidth="64.0" />
+                           <Label layoutX="15.0" layoutY="13.0" text="Memory" />
+                           <TextField fx:id="textFieldMemoryMin" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="64.0" />
+                           <TextField fx:id="textFieldMemoryMax" layoutX="100.0" layoutY="31.0" prefHeight="25.0" prefWidth="64.0" />
                            <Label layoutX="87.0" layoutY="35.0" text="-" />
                        </children></Pane>
                </children></AnchorPane>
