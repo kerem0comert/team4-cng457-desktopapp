@@ -91,6 +91,7 @@ public class Controller implements Initializable {
 
     public void getProductsPressed(ActionEvent event) throws IOException, ParseException {
 
+        ObservableList<BasicProductInfo> data = FXCollections.observableArrayList();
         String response = "";
         HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/getallphones").openConnection();
         connection.setRequestMethod("GET");
@@ -105,6 +106,8 @@ public class Controller implements Initializable {
             scanner.close();
         }
 
+
+
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response);
         JSONArray array = (JSONArray) obj;
@@ -116,25 +119,72 @@ public class Controller implements Initializable {
 
         System.out.println(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("internalMemory"));
 
-        JSONObject jsonObjectBrand1 = (JSONObject) parser.parse(jsonObject.get("brand").toString()); // Parse the brand seperately
-        System.out.println(jsonObjectBrand1.get("brandName") + " " + jsonObjectBrand1.get("brandId")); //Print the brand seperately
+        //Brand is not coming seperately now, intead just brandId is returned....
 
-        System.out.println("Phone: " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
+        String responseBrand1 = "";
 
-        //loadData(); // Implement this logic in here, add all the phones and then load the Data into the table
+        if(jsonObject.get("brand").toString().length()<15){     // If only brandIs is present, we need another request
 
+            HttpURLConnection connectionBrand1 = (HttpURLConnection)new URL("http://localhost:8080/getbrand/"+jsonObject.get("brand").toString()).openConnection();
+            connectionBrand1.setRequestMethod("GET");
+            int responsecodeBrand1 = connectionBrand1.getResponseCode();
 
-        ObservableList<BasicProductInfo> data = FXCollections.observableArrayList();
-        data.add(new BasicProductInfo(jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model"),jsonObject.get("price").toString()));
+            if(responsecodeBrand1 == 200){
+                Scanner scanner = new Scanner(connectionBrand1.getInputStream());
+                while(scanner.hasNextLine()){
+                    responseBrand1 += scanner.nextLine();
+                    responseBrand1 += "\n";
+                }
+                scanner.close();
+            }
+        }
+
+        else{         // If brand is present as an object
+            responseBrand1 += jsonObject.get("brand").toString();
+        }
+
+            JSONObject jsonObjectBrand1 = (JSONObject) parser.parse(responseBrand1); // Parse the brand seperately
+            System.out.println(jsonObjectBrand1.get("brandName") + " " + jsonObjectBrand1.get("brandId")); //Print the brand seperately
+
+            System.out.println("Phone: " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
+
+            data.add(new BasicProductInfo(jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model"),jsonObject.get("price").toString()));
+
 
 
 
         String reviewList ="";
         for(int i =0;i<reviews.size();i++){
-            JSONObject temp = (JSONObject) reviews.get(i);
-            reviewList += temp.get("product") + " " + temp.get("rating") +  " " + temp.get("comment") + " " +  temp.get("reviewId");
-            reviewList += "\n";
-        }
+
+            String responseReview1 = "";
+
+            if(reviews.get(i).toString().length()<15){
+
+                HttpURLConnection connectionReview1 = (HttpURLConnection)new URL("http://localhost:8080/getreview/"+reviews.get(i).toString()).openConnection();
+                connectionReview1.setRequestMethod("GET");
+                int responsecodeRequest1 = connectionReview1.getResponseCode();
+
+                if(responsecodeRequest1 == 200){
+                    Scanner scanner = new Scanner(connectionReview1.getInputStream());
+                    while(scanner.hasNextLine()){
+                        responseReview1 += scanner.nextLine();
+                        responseReview1 += "\n";
+                    }
+                    scanner.close();
+                }
+
+
+            }
+
+            else{
+                responseReview1 +=  reviews.get(i).toString();
+            }
+
+                JSONObject temp = (JSONObject) parser.parse(responseReview1);
+                reviewList += temp.get("product") + " " + temp.get("rating") + " " + temp.get("comment") + " " + temp.get("reviewId");
+                reviewList += "\n";
+
+        }       // End of Reviews1 for loop
 
         System.out.println("Reviews:");
 
@@ -149,9 +199,35 @@ public class Controller implements Initializable {
 
         String extraFeaturesList ="";
         for(int i =0;i<extraFeatures.size();i++){
-            JSONObject temp = (JSONObject) extraFeatures.get(i);
-            extraFeaturesList += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
-            extraFeaturesList += "\n";
+
+            String responseExtraFeatures1 = "";
+
+            if(extraFeatures.get(i).toString().length()<15){
+
+                HttpURLConnection connectionextraFeatures1 = (HttpURLConnection)new URL("http://localhost:8080/getExtraFeatures/"+extraFeatures.get(i).toString()).openConnection();
+                connectionextraFeatures1.setRequestMethod("GET");
+                int responsecodeExtraFeatures1 = connectionextraFeatures1.getResponseCode();
+
+                if(responsecodeExtraFeatures1 == 200){
+                    Scanner scanner = new Scanner(connectionextraFeatures1.getInputStream());
+                    while(scanner.hasNextLine()){
+                        responseExtraFeatures1 += scanner.nextLine();
+                        responseExtraFeatures1 += "\n";
+                    }
+                    scanner.close();
+                }
+
+
+            }
+
+            else{
+                responseExtraFeatures1 += extraFeatures.get(i).toString();
+            }
+
+                JSONObject temp = (JSONObject) parser.parse(responseExtraFeatures1);
+                extraFeaturesList += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
+                extraFeaturesList += "\n";
+
         }
 
         System.out.println("ExtraFeatures:");
@@ -160,7 +236,6 @@ public class Controller implements Initializable {
         else
             System.out.println(extraFeaturesList);
         System.out.println("*****************");
-
 
         for(int i=1;i<array.size();i++){    // Get the remaining phones other than the first one
             String requestURL = "http://localhost:8080/getphone/" + array.get(i).toString();
@@ -185,19 +260,66 @@ public class Controller implements Initializable {
 
             System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("internalMemory"));
 
-            JSONObject jsonObjectBrand2 = (JSONObject) parser.parse(jsonObject2.get("brand").toString());       // Parse the brand seperately
-            System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
 
-            System.out.println("Phone: " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
 
-            data.add(new BasicProductInfo(jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model"),jsonObject2.get("price").toString()));
+            String responseBrand2 = "";
 
+            if(jsonObject2.get("brand").toString().length()<15){     // If only brandIs is present, we need another request
+
+                HttpURLConnection connectionBrand2 = (HttpURLConnection)new URL("http://localhost:8080/getbrand/"+jsonObject2.get("brand").toString()).openConnection();
+                connectionBrand2.setRequestMethod("GET");
+                int responsecodeBrand2 = connectionBrand2.getResponseCode();
+
+                if(responsecodeBrand2 == 200){
+                    Scanner scanner = new Scanner(connectionBrand2.getInputStream());
+                    while(scanner.hasNextLine()){
+                        responseBrand2 += scanner.nextLine();
+                        responseBrand2 += "\n";
+                    }
+                    scanner.close();
+                }
+            }
+
+            else{         // If brand is present as an object
+                responseBrand2 += jsonObject2.get("brand").toString();
+            }
+
+                JSONObject jsonObjectBrand2 = (JSONObject) parser.parse(responseBrand2);       // Parse the brand seperately
+                System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
+
+                System.out.println("Phone: " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
+
+                data.add(new BasicProductInfo(jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model"),jsonObject2.get("price").toString()));
 
             String reviewList2 ="";
             for(int j =0;j<reviews2.size();j++){
-                JSONObject temp = (JSONObject) reviews2.get(j);
-                reviewList2 += temp.get("product") + " " + temp.get("rating") +  " " + temp.get("comment") + " " +  temp.get("reviewId");
-                reviewList2 += "\n";
+
+                String responseReview2 = "";
+
+                if(reviews2.get(j).toString().length()<15){
+
+                    HttpURLConnection connectionReview2 = (HttpURLConnection)new URL("http://localhost:8080/getreview/"+reviews2.get(j).toString()).openConnection();
+                    connectionReview2.setRequestMethod("GET");
+                    int responsecodeRequest2 = connectionReview2.getResponseCode();
+
+                    if(responsecodeRequest2 == 200){
+                        Scanner scanner = new Scanner(connectionReview2.getInputStream());
+                        while(scanner.hasNextLine()){
+                            responseReview2 += scanner.nextLine();
+                            responseReview2 += "\n";
+                        }
+                        scanner.close();
+                    }
+
+                }
+
+                else{
+                    responseReview2 +=  reviews2.get(j).toString();
+                }
+                    JSONObject temp = (JSONObject) parser.parse(responseReview2);
+                    reviewList2 += temp.get("product") + " " + temp.get("rating") +  " " + temp.get("comment") + " " +  temp.get("reviewId");
+                    reviewList2 += "\n";
+
             }
             System.out.println("Reviews:");
             if(reviews2.size()==0)
@@ -211,9 +333,34 @@ public class Controller implements Initializable {
 
             String extraFeaturesList2 ="";
             for(int j =0;j<extraFeatures2.size();j++){
-                JSONObject temp = (JSONObject) extraFeatures2.get(j);
-                extraFeaturesList2 += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
-                extraFeaturesList2 += "\n";
+
+                String responseExtraFeatures2 = "";
+
+                if(extraFeatures2.get(j).toString().length()<15){
+
+                    HttpURLConnection connectionextraFeatures2 = (HttpURLConnection)new URL("http://localhost:8080/getExtraFeatures/"+extraFeatures2.get(j).toString()).openConnection();
+                    connectionextraFeatures2.setRequestMethod("GET");
+                    int responsecodeExtraFeatures2 = connectionextraFeatures2.getResponseCode();
+
+                    if(responsecodeExtraFeatures2 == 200){
+                        Scanner scanner = new Scanner(connectionextraFeatures2.getInputStream());
+                        while(scanner.hasNextLine()){
+                            responseExtraFeatures2 += scanner.nextLine();
+                            responseExtraFeatures2 += "\n";
+                        }
+                        scanner.close();
+                    }
+
+                }
+
+                else{
+                    responseExtraFeatures2 += extraFeatures2.get(j).toString();
+                }
+
+                    JSONObject temp = (JSONObject) parser.parse(responseExtraFeatures2);
+                    extraFeaturesList2 += temp.get("efId") + " " + temp.get("featureName") +  " " + temp.get("description");
+                    extraFeaturesList2 += "\n";
+
             }
             System.out.println("ExtraFeatures:");
 
