@@ -1,6 +1,9 @@
 package ProjectGUI;
 
-import org.springframework.web.util.UriComponentsBuilder;
+
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
+import java.util.Arrays;
 
 public final class Repository {
     private static Repository instance;
@@ -14,13 +17,18 @@ public final class Repository {
         return instance;
     }
 
-    public void getComputers(Integer[] filter){
-        String s = UriComponentsBuilder
-                .fromUriString(Constants.BASE_URL)
-                .build()
-                .toString();
-        System.out.println(s);
+    private String appendNonNull(String fieldName, Object o){
+        return o == null ? "" : fieldName + "=" + o ;
     }
 
-    public void getPhones(String filter){ }
+    public void getComputers(Integer[] batteryLifeRange){
+        StringBuilder url = new StringBuilder(Constants.BASE_URL + Constants.GET_COMPUTER);
+        url.append(appendNonNull(Constants.MIN_BATTERY_LIFE, batteryLifeRange[0]));
+        url.append(appendNonNull(Constants.MAX_BATTERY_LIFE, batteryLifeRange[1]));
+        System.out.println(url.toString());
+    }
+
+    public void getPhones(String filter){
+        
+    }
 }
