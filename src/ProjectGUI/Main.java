@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class Main extends Application {
+    private Controller controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -21,6 +22,10 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MyFXML.fxml"));
+        controller = loader.getController();
+        controller.setStage(primaryStage);
     }
 
 
