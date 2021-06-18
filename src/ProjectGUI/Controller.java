@@ -19,6 +19,10 @@ public class Controller {
     @FXML
     private ToggleGroup toggleGroupProductType;
     @FXML
+    private TextField textFieldPriceMin;
+    @FXML
+    private TextField textFieldPriceMax;
+    @FXML
     private Pane paneFilterPhone;
     @FXML
     private Pane paneFilterComputer;
@@ -27,9 +31,9 @@ public class Controller {
     @FXML
     private TextField textFieldInternalMemoryMax;
     @FXML
-    private TextField textFieldBatteryLifeMin;
+    private TextField textFieldMemoryMin;
     @FXML
-    private TextField textFieldBatteryLifeMax;
+    private TextField textFieldMemoryMax;
     //endregion
 
     //region Buttons
@@ -55,7 +59,6 @@ public class Controller {
     }
 
 
-
     private void initToggleGroupListener() {
         paneFilterPhone.setVisible(false); //Initially not visible as computer is pre-selected
         selectedFilter = Constants.COMPUTER;
@@ -76,38 +79,32 @@ public class Controller {
     }
 
     private void initTextFields() {
-        Extensions.numberTextFieldify(textFieldBatteryLifeMin);
-        Extensions.numberTextFieldify(textFieldBatteryLifeMax);
+        Extensions.numberTextFieldify(textFieldMemoryMin);
+        Extensions.numberTextFieldify(textFieldMemoryMax);
         Extensions.numberTextFieldify(textFieldInternalMemoryMin);
         Extensions.numberTextFieldify(textFieldInternalMemoryMax);
     }
 
     private void initGetProductsListener() {
         buttonGetProducts.setOnAction(e -> {
-            System.out.println("pressed");
+            Range priceRange = new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax));
             switch (selectedFilter) {
                 case Constants.COMPUTER:
-                    Integer[] batteryLifeRange = {
-                            getValue(textFieldBatteryLifeMin),
-                            getValue(textFieldBatteryLifeMax)
-                    };
-                    Repository.getInstance().getComputers(batteryLifeRange);
+                    Range memoryRange = new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax));
+                    Repository.getInstance().getComputers();
                     break;
                 case Constants.PHONE:
-                    Integer[] internalMemoryRange = {
-                            getValue(textFieldInternalMemoryMin),
-                            getValue(textFieldInternalMemoryMax),
-                    };
+                    Range internalMemoryRange = new Range(getValue(textFieldInternalMemoryMin), getValue(textFieldInternalMemoryMax));
                     Repository.getInstance().getPhones("myfilters");
                     break;
             }
         });
     }
 
-    private Integer getValue(TextField textField){
-        try{
+    private Integer getValue(TextField textField) {
+        try {
             return Integer.parseInt(textField.getText());
-        }catch(Exception e){
+        } catch (Exception e) {
             return null; //If the text is empty, the casting would not succeed.
         }
     }
