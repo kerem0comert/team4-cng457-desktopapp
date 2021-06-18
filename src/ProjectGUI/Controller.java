@@ -47,7 +47,7 @@ public class Controller {
 
         JSONArray reviews = (JSONArray) jsonObject.get("reviewList");
 
-        System.out.println(jsonObject.get("type") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("brand") + " "+ jsonObject.get("internalMemory"));
+        System.out.println(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("brand") + " "+ jsonObject.get("internalMemory"));
 
         String reviewList ="";
         for(int i =0;i<reviews.size();i++){
@@ -91,7 +91,7 @@ public class Controller {
 
             JSONArray reviews2 = (JSONArray) jsonObject2.get("reviewList");
 
-            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("brand") + " "+ jsonObject2.get("internalMemory"));
+            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("brand") + " "+ jsonObject2.get("internalMemory"));
 
             String reviewList2 ="";
             for(int j =0;j<reviews2.size();j++){
