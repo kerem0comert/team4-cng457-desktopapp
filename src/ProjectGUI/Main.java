@@ -1,6 +1,7 @@
 package ProjectGUI;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,17 +18,14 @@ public class Main extends Application {
     }
 
     private void initPrimaryStage(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GUI.fxml")));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.FXML));
         primaryStage.setTitle("Epey.com Clone");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(loader.load()));
         primaryStage.setResizable(false);
-        primaryStage.show();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI.fxml"));
         controller = loader.getController();
         controller.setStage(primaryStage);
+        primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
