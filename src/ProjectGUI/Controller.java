@@ -91,9 +91,22 @@ public class Controller implements Initializable {
 
     public void getProductsPressed(ActionEvent event) throws IOException, ParseException {
 
+        String mainURL = "";
+        int product;    // 0 --> phone and 1 --> computer
+
+        product = 1;    // Set the product
+
+        if(product == 0){
+            mainURL += "http://localhost:8080/getallphones";
+        }
+
+        else if(product == 1){
+            mainURL += "http://localhost:8080/getallcomputers";
+        }
+
         ObservableList<BasicProductInfo> data = FXCollections.observableArrayList();
         String response = "";
-        HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/getallphones").openConnection();
+        HttpURLConnection connection = (HttpURLConnection)new URL(mainURL).openConnection();
         connection.setRequestMethod("GET");
         int responsecode = connection.getResponseCode();
 
@@ -106,8 +119,6 @@ public class Controller implements Initializable {
             scanner.close();
         }
 
-
-
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response);
         JSONArray array = (JSONArray) obj;
@@ -117,7 +128,15 @@ public class Controller implements Initializable {
 
         JSONArray reviews = (JSONArray) jsonObject.get("reviewList");
 
-        System.out.println(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " "+ jsonObject.get("internalMemory"));
+        System.out.print(jsonObject.get("type") +" " + jsonObject.get("price") + " " + jsonObject.get("productId") + " " + jsonObject.get("model") + " " + jsonObject.get("batteryLife") + " " + jsonObject.get("screenSize") + " ");
+
+        if(product == 0){   // If phone
+            System.out.println(jsonObject.get("internalMemory"));
+        }
+
+        else if(product == 1){  // If computer
+            System.out.println(jsonObject.get("memory") + " " + jsonObject.get("processor") + " " + jsonObject.get("screenResolution") + " " + jsonObject.get("storageCapacity"));
+        }
 
         //Brand is not coming seperately now, intead just brandId is returned....
 
@@ -146,7 +165,7 @@ public class Controller implements Initializable {
             JSONObject jsonObjectBrand1 = (JSONObject) parser.parse(responseBrand1); // Parse the brand seperately
             System.out.println(jsonObjectBrand1.get("brandName") + " " + jsonObjectBrand1.get("brandId")); //Print the brand seperately
 
-            System.out.println("Phone: " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
+            System.out.println("Product: " + jsonObject.get("type") + " " + jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model") + " " + jsonObject.get("productId")); //Add to table
 
             data.add(new BasicProductInfo(jsonObjectBrand1.get("brandName") + " " + jsonObject.get("model"),jsonObject.get("price").toString()));
 
@@ -186,10 +205,10 @@ public class Controller implements Initializable {
 
         }       // End of Reviews1 for loop
 
-        System.out.println("Reviews:");
+        System.out.println("Reviews:\n");
 
         if(reviews.size()==0)
-            System.out.println("No reviews!");
+            System.out.println("No reviews!\n");
         else
             System.out.println(reviewList);
 
@@ -230,15 +249,23 @@ public class Controller implements Initializable {
 
         }
 
-        System.out.println("ExtraFeatures:");
+        System.out.println("ExtraFeatures:\n");
         if(extraFeatures.size()==0)
-            System.out.println("No extra features!");
+            System.out.println("No extra features!\n");
         else
             System.out.println(extraFeaturesList);
         System.out.println("*****************");
 
         for(int i=1;i<array.size();i++){    // Get the remaining phones other than the first one
-            String requestURL = "http://localhost:8080/getphone/" + array.get(i).toString();
+            String requestURL = "";
+            if (product == 0){
+                requestURL  += "http://localhost:8080/getphone/" + array.get(i).toString();
+            }
+
+            else if(product == 1){
+                requestURL  += "http://localhost:8080/getcomputer/" + array.get(i).toString();
+            }
+
             String response2 = "";
 
             HttpURLConnection connection2 = (HttpURLConnection)new URL(requestURL).openConnection();
@@ -258,9 +285,15 @@ public class Controller implements Initializable {
             JSONObject jsonObject2 = (JSONObject) parser.parse(response2);
             JSONArray reviews2 = (JSONArray) jsonObject2.get("reviewList");
 
-            System.out.println(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " "+ jsonObject2.get("internalMemory"));
+            System.out.print(jsonObject2.get("type") + " " + jsonObject2.get("price") + " " + jsonObject2.get("productId") + " " + jsonObject2.get("model") + " " + jsonObject2.get("batteryLife") + " " + jsonObject2.get("screenSize") + " ");
 
+            if(product == 0){   // If phone
+                System.out.println(jsonObject2.get("internalMemory"));
+            }
 
+            else if(product == 1){  // If computer
+                System.out.println(jsonObject2.get("memory") + " " + jsonObject2.get("processor") + " " + jsonObject2.get("screenResolution") + " " + jsonObject2.get("storageCapacity"));
+            }
 
             String responseBrand2 = "";
 
@@ -287,7 +320,7 @@ public class Controller implements Initializable {
                 JSONObject jsonObjectBrand2 = (JSONObject) parser.parse(responseBrand2);       // Parse the brand seperately
                 System.out.println(jsonObjectBrand2.get("brandName") + " " + jsonObjectBrand2.get("brandId"));      // Print the brand seperately
 
-                System.out.println("Phone: " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
+                System.out.println("Product: " + jsonObject2.get("type") + " " + jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model") + " " + jsonObject2.get("productId")); //Add to table
 
                 data.add(new BasicProductInfo(jsonObjectBrand2.get("brandName") + " " + jsonObject2.get("model"),jsonObject2.get("price").toString()));
 
@@ -321,9 +354,9 @@ public class Controller implements Initializable {
                     reviewList2 += "\n";
 
             }
-            System.out.println("Reviews:");
+            System.out.println("Reviews:\n");
             if(reviews2.size()==0)
-                System.out.println("No reviews!");
+                System.out.println("No reviews!\n");
             else
                 System.out.println(reviewList2);
             System.out.println("*****************");
@@ -362,10 +395,10 @@ public class Controller implements Initializable {
                     extraFeaturesList2 += "\n";
 
             }
-            System.out.println("ExtraFeatures:");
+            System.out.println("ExtraFeatures:\n");
 
             if(extraFeatures2.size()==0)
-                System.out.println("No extra features!");
+                System.out.println("No extra features!\n");
             else
                 System.out.println(extraFeaturesList2);
 
