@@ -44,6 +44,34 @@ public class Controller {
     private TextField textFieldMemoryMin;
     @FXML
     private TextField textFieldMemoryMax;
+    @FXML
+    private TableView tableViewModel;
+    @FXML
+    public TableColumn columnModels;
+    @FXML
+    public TableColumn columnBrands;
+    @FXML
+    public TableView tableViewBrand;
+    @FXML
+    public TextField textFieldBatteryLifeMin;
+    @FXML
+    public TextField textFieldBatteryLifeMax;
+    @FXML
+    public TableView tableViewScreenSize;
+    @FXML
+    public TableColumn columnScreenSize;
+    @FXML
+    public TextField textFieldStorageCapacityMin;
+    @FXML
+    public TextField textFieldStorageCapacityMax;
+    @FXML
+    public TableView tableViewProcessor;
+    @FXML
+    public TableColumn columnProcessor;
+    @FXML
+    public TableView tableViewScreenResolution;
+    @FXML
+    public TableColumn columnScreenResolution;
     //endregion
 
     //region Buttons

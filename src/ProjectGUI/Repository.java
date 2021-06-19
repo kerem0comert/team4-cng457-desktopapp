@@ -18,6 +18,10 @@ public final class Repository {
         return instance;
     }
 
+    /**
+     *This should ideally be done with solutions like UriComponentsBuilder, but the library just could not be
+     *compiled after more an hour of trying. In order to keep my sanity, I went with the ugly implementation.
+     */
     private String appendNonNull(String fieldName, Object o) {
         return o == null ? "" : fieldName + "=" + o;
     }
