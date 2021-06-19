@@ -4,56 +4,56 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="799.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProjectGUI.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="799.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProjectGUI.Controller">
    <children>
       <ScrollPane fx:id="filtersPane" hbarPolicy="NEVER" layoutX="18.0" layoutY="38.0" prefHeight="318.0" prefWidth="200.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="719.0" prefWidth="203.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="795.0" prefWidth="203.0">
                <children>
-                   <Separator layoutX="19.0" layoutY="51.0" prefHeight="17.0" prefWidth="140.0" />
+                   <Separator layoutX="17.0" layoutY="42.0" prefHeight="17.0" prefWidth="140.0" />
                   <RadioButton fx:id="radioButtonComputer" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" selected="true" text="Computer">
                      <toggleGroup>
                         <ToggleGroup fx:id="toggleGroupProductType" />
                      </toggleGroup>
                   </RadioButton>
                    <!--Products -->
-                   <TableView fx:id="tableViewBrand" layoutX="14.0" layoutY="75.0" prefHeight="50.0" prefWidth="145.0">
+                   <TableView fx:id="tableViewBrand" layoutX="14.0" layoutY="60.0" prefHeight="100.0" prefWidth="146.0">
                        <columns>
                            <TableColumn fx:id="columnBrands" prefWidth="145.0" text="Brands" />
                        </columns>
                    </TableView>
 
-                   <TableView fx:id="tableViewModel" layoutX="14.0" layoutY="130.0" prefHeight="50.0" prefWidth="145.0">
+                   <TableView fx:id="tableViewModel" layoutX="14.0" layoutY="180.0" prefHeight="100.0" prefWidth="145.0">
                        <columns>
                            <TableColumn fx:id="columnModels" prefWidth="145.0" text="Models" />
                        </columns>
                    </TableView>
 
-                   <Label layoutX="15.0" layoutY="185.0" text="Price" />
-                   <TextField fx:id="textFieldPriceMin" layoutX="14.0" layoutY="205.0" prefHeight="25.0" prefWidth="64.0" />
-                   <Label fx:id="labelPriceDash" layoutX="87.0" layoutY="205.0" text="-" />
-                   <TextField fx:id="textFieldPriceMax" layoutX="100.0" layoutY="205.0" prefHeight="25.0" prefWidth="64.0" />
+                   <Label layoutX="15.0" layoutY="300.0" text="Price" />
+                   <TextField fx:id="textFieldPriceMin" layoutX="14.0" layoutY="320.0" prefHeight="25.0" prefWidth="64.0" />
+                   <Label fx:id="labelPriceDash" layoutX="87.0" layoutY="320.0" text="-" />
+                   <TextField fx:id="textFieldPriceMax" layoutX="100.0" layoutY="320.0" prefHeight="25.0" prefWidth="64.0" />
 
-                   <Label layoutX="15.0" layoutY="235.0" text="Battery Life" />
-                   <TextField fx:id="textFieldBatteryLifeMin" layoutX="14.0" layoutY="255.0" prefHeight="25.0" prefWidth="64.0" />
-                   <Label fx:id="labelBatteryLifeDash" layoutX="87.0" layoutY="255.0" text="-" />
-                   <TextField fx:id="textFieldBatteryLifeMax" layoutX="100.0" layoutY="255.0" prefHeight="25.0" prefWidth="64.0" />
+                   <Label layoutX="15.0" layoutY="365.0" text="Battery Life" />
+                   <TextField fx:id="textFieldBatteryLifeMin" layoutX="14.0" layoutY="385.0" prefHeight="25.0" prefWidth="64.0" />
+                   <Label fx:id="labelBatteryLifeDash" layoutX="87.0" layoutY="385.0" text="-" />
+                   <TextField fx:id="textFieldBatteryLifeMax" layoutX="100.0" layoutY="385.0" prefHeight="25.0" prefWidth="64.0" />
 
-                   <TableView fx:id="tableViewScreenSize" layoutX="14.0" layoutY="290.0" prefHeight="50.0" prefWidth="145.0">
+                   <TableView fx:id="tableViewScreenSize" layoutX="14.0" layoutY="430.0" prefHeight="100.0" prefWidth="145.0">
                        <columns>
                            <TableColumn fx:id="columnScreenSize" prefWidth="145.0" text="Screen Size" />
                        </columns>
                    </TableView>
 
                   <RadioButton fx:id="radioButtonPhone" layoutX="100.0" layoutY="22.0" mnemonicParsing="false" text="Phone" toggleGroup="$toggleGroupProductType" />
-                  <Pane fx:id="paneFilterPhone" layoutY="360.0" prefHeight="139.0" prefWidth="200.0">
+                  <Pane fx:id="paneFilterPhone" layoutY="530.0" prefHeight="139.0" prefWidth="200.0">
                      <children> <!--Phone -->
                         <Label layoutX="15.0" layoutY="5.0" text="Internal Memory" />
                         <TextField fx:id="textFieldInternalMemoryMin" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
                          <Label fx:id="labelInternalMemoryDash" layoutX="87.0" layoutY="25.0" text="-" />
                         <TextField fx:id="textFieldInternalMemoryMax" layoutX="100.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
                      </children></Pane>
-                   <Pane fx:id="paneFilterComputer" layoutY="360.0" prefHeight="139.0" prefWidth="200.0">
+                   <Pane fx:id="paneFilterComputer" layoutY="530.0" prefHeight="139.0" prefWidth="200.0">
                        <children> <!--Computer -->
                            <Label layoutX="15.0" layoutY="5.0" text="Memory" />
                            <TextField fx:id="textFieldMemoryMin" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
@@ -65,13 +65,13 @@
                            <Label fx:id="labelStorageCapacityDash" layoutX="87.0" layoutY="80.0" text="-" />
                            <TextField fx:id="textFieldStorageCapacityMax" layoutX="100.0" layoutY="80.0" prefHeight="25.0" prefWidth="64.0" />
 
-                           <TableView fx:id="tableViewProcessor" layoutX="14.0" layoutY="115.0" prefHeight="50.0" prefWidth="145.0">
+                           <TableView fx:id="tableViewProcessor" layoutX="14.0" layoutY="115.0" prefHeight="80.0" prefWidth="145.0">
                                <columns>
                                    <TableColumn fx:id="columnProcessor" prefWidth="145.0" text="Processors" />
                                </columns>
                            </TableView>
 
-                           <TableView fx:id="tableViewScreenResolution" layoutX="14.0" layoutY="175.0" prefHeight="50.0" prefWidth="145.0">
+                           <TableView fx:id="tableViewScreenResolution" layoutX="14.0" layoutY="205.0" prefHeight="50.0" prefWidth="145.0">
                                <columns>
                                    <TableColumn fx:id="columnScreenResolution" prefWidth="145.0" text="Models" />
                                </columns>
