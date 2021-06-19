@@ -1,8 +1,22 @@
 package ProjectGUI;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 
 public class Controller {
     private String selectedFilter;
@@ -459,11 +473,11 @@ public class Controller {
             switch (selectedFilter) {
                 case Constants.COMPUTER:
                     Range memoryRange = new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax));
-                    Repository.getInstance().getComputers();
+                    //Repository.getInstance().getComputers();
                     break;
                 case Constants.PHONE:
                     Range internalMemoryRange = new Range(getValue(textFieldInternalMemoryMin), getValue(textFieldInternalMemoryMax));
-                    Repository.getInstance().getPhones("myfilters");
+                   // Repository.getInstance().getPhones("myfilters");
                     break;
             }
         });
