@@ -1,9 +1,7 @@
 package ProjectGUI;
 
-import ProjectGUI.Models.Constants;
+import ProjectGUI.Models.*;
 import ProjectGUI.Models.JavaFX.*;
-import ProjectGUI.Models.Product;
-import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -132,6 +130,7 @@ public class Controller {
                 tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
                 break;
         }
+        tableViewFeatures.setItems(FXCollections.observableArrayList());
     }
 
     private void initTable() {
@@ -161,12 +160,67 @@ public class Controller {
 
         ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
 
-        ProductInformationFX newInformationFX = new ProductInformationFX();
+        ProductInformationFX newInformationFX;
+
+        newInformationFX = new ProductInformationFX();
         newInformationFX.setFeatureName("Model");
         newInformationFX.setFeature1(selectedProduct.getModel());
         newInformationFX.setFeature2("");
-
         informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Price");
+        newInformationFX.setFeature1(selectedProduct.getPrice().toString());
+        newInformationFX.setFeature2("");
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Battery Life");
+        newInformationFX.setFeature1(selectedProduct.getBatteryLife().toString());
+        newInformationFX.setFeature2("");
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Screen Size");
+        newInformationFX.setFeature1(selectedProduct.getScreenSize());
+        newInformationFX.setFeature2("");
+        informationFXList.add(newInformationFX);
+
+        switch (selectedFilter) {
+            case Constants.COMPUTER:
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Screen Resolution");
+                newInformationFX.setFeature1(((Computer)selectedProduct).getScreenResolution());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Processor");
+                newInformationFX.setFeature1(((Computer)selectedProduct).getProcessor());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Memory");
+                newInformationFX.setFeature1(((Computer)selectedProduct).getMemory().toString());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Storage Capacity");
+                newInformationFX.setFeature1(((Computer)selectedProduct).getStorageCapacity().toString());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+                break;
+            case Constants.PHONE:
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Internal Memory");
+                newInformationFX.setFeature1(((Phone)selectedProduct).getInternalMemory().toString());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+                break;
+        }
+
 
         tableViewFeatures.setItems(informationFXList);
 
