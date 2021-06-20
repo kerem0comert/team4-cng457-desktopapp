@@ -4,6 +4,7 @@ import ProjectGUI.Models.Constants;
 import ProjectGUI.Models.JavaFX.BrandFX;
 import ProjectGUI.Models.JavaFX.PhoneFX;
 import ProjectGUI.Models.JavaFX.ProductFX;
+import ProjectGUI.Models.JavaFX.ScreenSizeFX;
 import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,9 +29,9 @@ public class Controller {
     @FXML
     public TextField textFieldBatteryLifeMax;
     @FXML
-    public TableView tableViewScreenSize;
+    public TableView<ScreenSizeFX> tableViewScreenSize;
     @FXML
-    public TableColumn columnScreenSize;
+    public TableColumn<ScreenSizeFX, String> columnScreenSize;
     @FXML
     public TextField textFieldStorageCapacityMin;
     @FXML
@@ -103,6 +104,7 @@ public class Controller {
         initToggleGroupListener();
         //initGetProductsListener();
         tableViewBrand.setItems(getAllBrandsFX());
+        tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
     }
 
     private void initTable() {
@@ -113,6 +115,7 @@ public class Controller {
         columnName.setCellValueFactory(new PropertyValueFactory("model"));
         columnPrice.setCellValueFactory(new PropertyValueFactory("price"));
         columnBrands.setCellValueFactory(new PropertyValueFactory("brandName"));
+        columnScreenSize.setCellValueFactory(new PropertyValueFactory("screenSize"));
     }
 
     public void getProductsPressed(ActionEvent event) {
@@ -136,11 +139,13 @@ public class Controller {
                     paneFilterPhone.setVisible(false);
                     paneFilterComputer.setVisible(true);
                     selectedFilter = Constants.COMPUTER;
+                    tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
                     break;
                 case Constants.PHONE:
                     paneFilterComputer.setVisible(false);
                     paneFilterPhone.setVisible(true);
                     selectedFilter = Constants.PHONE;
+                    tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
                     break;
             }
         });

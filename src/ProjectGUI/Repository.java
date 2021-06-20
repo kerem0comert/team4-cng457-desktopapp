@@ -5,6 +5,7 @@ import ProjectGUI.Models.*;
 import ProjectGUI.Models.JavaFX.BrandFX;
 import ProjectGUI.Models.JavaFX.ComputerFX;
 import ProjectGUI.Models.JavaFX.PhoneFX;
+import ProjectGUI.Models.JavaFX.ScreenSizeFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -93,6 +94,42 @@ public final class Repository {
         }
 
         return brandFXList;
+
+    }
+
+    public static ObservableList<ScreenSizeFX> getAllScreenSizesForComputersFX() {
+        ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
+
+        StringBuilder url = appendBaseFields(Constants.GET_ALL_SCREEN_SIZES_FOR_COMPUTERS, null, null, null, null);
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            String screenSizeJSON = ((String) obj);
+            ScreenSizeFX newScreenSizeFX = new ScreenSizeFX();
+            newScreenSizeFX.setScreenSize(screenSizeJSON);
+            screenSizeFXList.add(newScreenSizeFX);
+        }
+
+        return screenSizeFXList;
+
+    }
+
+    public static ObservableList<ScreenSizeFX> getAllScreenSizesForPhonesFX() {
+        ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
+
+        StringBuilder url = appendBaseFields(Constants.GET_ALL_SCREEN_SIZES_FOR_PHONES, null, null, null, null);
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            String screenSizeJSON = ((String) obj);
+            ScreenSizeFX newScreenSizeFX = new ScreenSizeFX();
+            newScreenSizeFX.setScreenSize(screenSizeJSON);
+            screenSizeFXList.add(newScreenSizeFX);
+        }
+
+        return screenSizeFXList;
 
     }
 
