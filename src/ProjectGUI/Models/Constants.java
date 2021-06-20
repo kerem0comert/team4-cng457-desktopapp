@@ -1,4 +1,4 @@
-package ProjectGUI;
+package ProjectGUI.Models;
 
 public class Constants {
     //region Network
