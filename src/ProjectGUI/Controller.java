@@ -624,7 +624,7 @@ public class Controller {
                 for (Review review: reviews)
                 {
 
-                    if (ReviewFXList.size() >= i)
+                    if (ReviewFXList.size() > i)
                     {
                         newReviewFX = ReviewFXList.get(i);
                         String rating = "";
@@ -659,7 +659,7 @@ public class Controller {
                         newReviewFX.setDescription2(review.getComment());
                         ReviewFXList.add(newReviewFX);
                     }
-
+                    i++;
                 }
             }
 
@@ -677,7 +677,7 @@ public class Controller {
                 for (Review review: reviews)
                 {
 
-                    if (ReviewFXList.size() >= i)
+                    if (ReviewFXList.size() > i)
                     {
                         newReviewFX = ReviewFXList.get(i);
                         String rating = "";
@@ -712,8 +712,9 @@ public class Controller {
                         newReviewFX.setDescription3(review.getComment());
                         ReviewFXList.add(newReviewFX);
                     }
-
+                    i++;
                 }
+
             }
 
 
