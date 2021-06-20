@@ -115,6 +115,7 @@ public class Controller {
         initToggleGroupListener();
         //initGetProductsListener();
         fillFilters();
+
     }
 
     private void fillFilters()
@@ -281,6 +282,20 @@ public class Controller {
         }
 
     }
+
+    public void sortByPriceAction(ActionEvent event) {
+
+        if(columnPrice.getSortType()==TableColumn.SortType.DESCENDING)
+            columnPrice.setSortType(TableColumn.SortType.ASCENDING);
+
+        else
+            columnPrice.setSortType(TableColumn.SortType.DESCENDING);
+
+        tableViewProducts.getSortOrder().add(columnPrice);
+        tableViewProducts.sort();
+
+    }
+
 
     private void initToggleGroupListener() {
         paneFilterPhone.setVisible(false); //Initially not visible as computer is pre-selected
