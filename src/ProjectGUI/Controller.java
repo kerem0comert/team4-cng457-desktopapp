@@ -131,6 +131,7 @@ public class Controller {
                 break;
         }
         tableViewFeatures.setItems(FXCollections.observableArrayList());
+        tableViewProducts.setItems(FXCollections.observableArrayList());
     }
 
     private void initTable() {
