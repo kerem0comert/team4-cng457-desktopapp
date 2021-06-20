@@ -299,7 +299,7 @@ public class Controller {
 
         ProductInformationFX newInformationFX;
         ReviewFX newReviewFX;
-        
+
         if (selectedProduct.getReviewList() != null || !selectedProduct.getReviewList().isEmpty())
         {
             ArrayList<Review> reviews = selectedProduct.getReviewList();
@@ -508,10 +508,6 @@ public class Controller {
                 newInformationFX.setFeature2(((Phone)selectedProducts.get(1)).getInternalMemory().toString());
                 if (selectedProducts.size() > 2)
                     newInformationFX.setFeature3(((Phone)selectedProducts.get(2)).getInternalMemory().toString());
-        tableViewFeatures.setItems(informationFXList);
-
-
-
                 informationFXList.add(newInformationFX);
                 break;
         }
