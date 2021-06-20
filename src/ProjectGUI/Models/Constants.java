@@ -1,10 +1,15 @@
-package ProjectGUI;
+package ProjectGUI.Models;
 
 public class Constants {
     //region Network
     public static final String BASE_URL = "http://localhost:8080/";
     public static final String GET_COMPUTER = "getComputer/?";
     public static final String GET_PHONE = "getPhone/?";
+    public static final String GET_ALL_BRANDS = "getAllBrands";
+    public static final String GET_ALL_SCREEN_SIZES_FOR_COMPUTERS = "getAllScreenSizesForComputers";
+    public static final String GET_ALL_SCREEN_RESOLUTIONS_FOR_COMPUTERS = "getAllScreenResolutionsForComputers";
+    public static final String GET_ALL_PROCESSORS_FOR_COMPUTERS = "getAllProcessorsForComputers";
+    public static final String GET_ALL_SCREEN_SIZES_FOR_PHONES = "getAllScreenSizesForPhones";
     //endregion
 
     //region Fields
