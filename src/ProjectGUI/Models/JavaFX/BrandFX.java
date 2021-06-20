@@ -12,7 +12,7 @@ public class BrandFX {
         brandName = new SimpleStringProperty();
     }
 
-    public String getBrandNameMemory() {
+    public String getBrandName() {
         return brandName.get();
     }
 

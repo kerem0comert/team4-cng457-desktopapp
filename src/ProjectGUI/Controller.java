@@ -2,12 +2,10 @@ package ProjectGUI;
 
 import ProjectGUI.Models.Constants;
 import ProjectGUI.Models.JavaFX.BrandFX;
-import ProjectGUI.Models.JavaFX.PhoneFX;
 import ProjectGUI.Models.JavaFX.ProductFX;
 import ProjectGUI.Models.JavaFX.ScreenSizeFX;
 import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -121,10 +119,23 @@ public class Controller {
     public void getProductsPressed(ActionEvent event) {
         switch (selectedFilter) {
             case Constants.COMPUTER:
-                tableViewProducts.setItems(FXCollections.observableArrayList(getComputersFX(null, null, null, null, null, null, null, null)));
+                tableViewProducts.setItems(FXCollections.observableArrayList(getComputersFX(
+                        tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
+                        null,
+                        tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null)));
                 break;
             case Constants.PHONE:
-                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(null, null, null, null, null)));
+                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(
+                        tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
+                        null,
+                        tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
+                        null,
+                        null)));
                 break;
         }
 
@@ -140,12 +151,14 @@ public class Controller {
                     paneFilterComputer.setVisible(true);
                     selectedFilter = Constants.COMPUTER;
                     tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
+                    tableViewBrand.setItems(getAllBrandsFX());
                     break;
                 case Constants.PHONE:
                     paneFilterComputer.setVisible(false);
                     paneFilterPhone.setVisible(true);
                     selectedFilter = Constants.PHONE;
                     tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
+                    tableViewBrand.setItems(getAllBrandsFX());
                     break;
             }
         });
