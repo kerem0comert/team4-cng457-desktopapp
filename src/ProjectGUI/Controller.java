@@ -1,6 +1,7 @@
 package ProjectGUI;
 
 import ProjectGUI.Models.Constants;
+import ProjectGUI.Models.JavaFX.BrandFX;
 import ProjectGUI.Models.JavaFX.PhoneFX;
 import ProjectGUI.Models.JavaFX.ProductFX;
 import ProjectGUI.Models.Range;
@@ -13,16 +14,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import static ProjectGUI.Repository.getComputersFX;
-import static ProjectGUI.Repository.getPhonesFX;
+import static ProjectGUI.Repository.*;
 
 public class Controller {
     @FXML
     public TableColumn columnModels;
     @FXML
-    public TableColumn columnBrands;
+    public TableColumn<BrandFX, String> columnBrands;
     @FXML
-    public TableView tableViewBrand;
+    public TableView<BrandFX> tableViewBrand;
     @FXML
     public TextField textFieldBatteryLifeMin;
     @FXML
@@ -102,6 +102,7 @@ public class Controller {
         initTextFields();
         initToggleGroupListener();
         //initGetProductsListener();
+        tableViewBrand.setItems(getAllBrandsFX());
     }
 
     private void initTable() {
@@ -111,6 +112,7 @@ public class Controller {
     private void initCols() {
         columnName.setCellValueFactory(new PropertyValueFactory("model"));
         columnPrice.setCellValueFactory(new PropertyValueFactory("price"));
+        columnBrands.setCellValueFactory(new PropertyValueFactory("brandName"));
     }
 
     public void getProductsPressed(ActionEvent event) {

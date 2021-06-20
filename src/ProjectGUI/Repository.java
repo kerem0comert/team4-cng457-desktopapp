@@ -2,6 +2,7 @@ package ProjectGUI;
 
 
 import ProjectGUI.Models.*;
+import ProjectGUI.Models.JavaFX.BrandFX;
 import ProjectGUI.Models.JavaFX.ComputerFX;
 import ProjectGUI.Models.JavaFX.PhoneFX;
 import javafx.collections.FXCollections;
@@ -75,6 +76,24 @@ public final class Repository {
         prod.setPrice(priceFromJSON);
 
         return prod;
+    }
+
+    public static ObservableList<BrandFX> getAllBrandsFX() {
+        ObservableList<BrandFX> brandFXList = FXCollections.observableArrayList();
+
+        StringBuilder url = appendBaseFields(Constants.GET_ALL_BRANDS, null, null, null, null);
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            String brandNameJSON = ((JSONObject) obj).get("brandName").toString();
+            BrandFX newBrandFX = new BrandFX();
+            newBrandFX.setBrandName(brandNameJSON);
+            brandFXList.add(newBrandFX);
+        }
+
+        return brandFXList;
+
     }
 
     public static ArrayList<Phone> getPhonesAsModel(String brand, Range batteryLife, String screenSize,
