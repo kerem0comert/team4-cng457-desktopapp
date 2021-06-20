@@ -117,25 +117,26 @@ public class Controller {
     }
 
     public void getProductsPressed(ActionEvent event) {
+        Range priceRange = new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax));
         switch (selectedFilter) {
             case Constants.COMPUTER:
                 tableViewProducts.setItems(FXCollections.observableArrayList(getComputersFX(
                         tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
-                        null,
+                        new Range(getValue(textFieldBatteryLifeMin), getValue(textFieldBatteryLifeMax)),
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
+                        new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax)),
                         null,
                         null,
-                        null,
-                        null,
+                        new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax)),
                         null)));
                 break;
             case Constants.PHONE:
                 tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(
                         tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
-                        null,
+                        new Range(getValue(textFieldBatteryLifeMin), getValue(textFieldBatteryLifeMax)),
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
-                        null,
-                        null)));
+                        new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax)),
+                        new Range(getValue(textFieldInternalMemoryMin), getValue(textFieldInternalMemoryMax)))));
                 break;
         }
 
@@ -169,22 +170,6 @@ public class Controller {
         Extensions.numberTextFieldify(textFieldMemoryMax);
         Extensions.numberTextFieldify(textFieldInternalMemoryMin);
         Extensions.numberTextFieldify(textFieldInternalMemoryMax);
-    }
-
-    private void initGetProductsListener() {
-        buttonGetProducts.setOnAction(e -> {
-            Range priceRange = new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax));
-            switch (selectedFilter) {
-                case Constants.COMPUTER:
-                    Range memoryRange = new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax));
-                    //Repository.getInstance().getComputers();
-                    break;
-                case Constants.PHONE:
-                    Range internalMemoryRange = new Range(getValue(textFieldInternalMemoryMin), getValue(textFieldInternalMemoryMax));
-                    // Repository.getInstance().getPhones("myfilters");
-                    break;
-            }
-        });
     }
 
     private Integer getValue(TextField textField) {
