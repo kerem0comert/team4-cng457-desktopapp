@@ -2,10 +2,7 @@ package ProjectGUI;
 
 
 import ProjectGUI.Models.*;
-import ProjectGUI.Models.JavaFX.BrandFX;
-import ProjectGUI.Models.JavaFX.ComputerFX;
-import ProjectGUI.Models.JavaFX.PhoneFX;
-import ProjectGUI.Models.JavaFX.ScreenSizeFX;
+import ProjectGUI.Models.JavaFX.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -112,6 +109,24 @@ public final class Repository {
         }
 
         return screenSizeFXList;
+
+    }
+
+    public static ObservableList<ScreenResolutionFX> getAllScreenResolutionsForComputersFX() {
+        ObservableList<ScreenResolutionFX> screenResolutionFXList = FXCollections.observableArrayList();
+
+        StringBuilder url = appendBaseFields(Constants.GET_ALL_SCREEN_RESOLUTIONS_FOR_COMPUTERS, null, null, null, null);
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            String screenResolutionJSON = ((String) obj);
+            ScreenResolutionFX newScreenResolutionFX = new ScreenResolutionFX();
+            newScreenResolutionFX.setScreenResolution(screenResolutionJSON);
+            screenResolutionFXList.add(newScreenResolutionFX);
+        }
+
+        return screenResolutionFXList;
 
     }
 

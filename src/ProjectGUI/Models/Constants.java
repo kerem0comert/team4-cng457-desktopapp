@@ -7,6 +7,7 @@ public class Constants {
     public static final String GET_PHONE = "getPhone/?";
     public static final String GET_ALL_BRANDS = "getAllBrands";
     public static final String GET_ALL_SCREEN_SIZES_FOR_COMPUTERS = "getAllScreenSizesForComputers";
+    public static final String GET_ALL_SCREEN_RESOLUTIONS_FOR_COMPUTERS = "getAllScreenResolutionsForComputers";
     public static final String GET_ALL_SCREEN_SIZES_FOR_PHONES = "getAllScreenSizesForPhones";
     //endregion
 

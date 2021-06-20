@@ -3,6 +3,7 @@ package ProjectGUI;
 import ProjectGUI.Models.Constants;
 import ProjectGUI.Models.JavaFX.BrandFX;
 import ProjectGUI.Models.JavaFX.ProductFX;
+import ProjectGUI.Models.JavaFX.ScreenResolutionFX;
 import ProjectGUI.Models.JavaFX.ScreenSizeFX;
 import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
@@ -39,9 +40,9 @@ public class Controller {
     @FXML
     public TableColumn columnProcessor;
     @FXML
-    public TableView tableViewScreenResolution;
+    public TableView<ScreenResolutionFX> tableViewScreenResolution;
     @FXML
-    public TableColumn columnScreenResolution;
+    public TableColumn<ScreenResolutionFX, String> columnScreenResolution;
     private String selectedFilter;
     //region Filters
     @FXML
@@ -101,8 +102,21 @@ public class Controller {
         initTextFields();
         initToggleGroupListener();
         //initGetProductsListener();
+        fillFilters();
+    }
+
+    private void fillFilters()
+    {
         tableViewBrand.setItems(getAllBrandsFX());
-        tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
+        switch (selectedFilter) {
+            case Constants.COMPUTER:
+                tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
+                tableViewScreenResolution.setItems(getAllScreenResolutionsForComputersFX());
+                break;
+            case Constants.PHONE:
+                tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
+                break;
+        }
     }
 
     private void initTable() {
@@ -114,6 +128,7 @@ public class Controller {
         columnPrice.setCellValueFactory(new PropertyValueFactory("price"));
         columnBrands.setCellValueFactory(new PropertyValueFactory("brandName"));
         columnScreenSize.setCellValueFactory(new PropertyValueFactory("screenSize"));
+        columnScreenResolution.setCellValueFactory(new PropertyValueFactory("screenResolution"));
     }
 
     public void getProductsPressed(ActionEvent event) {
@@ -125,7 +140,7 @@ public class Controller {
                         new Range(getValue(textFieldBatteryLifeMin), getValue(textFieldBatteryLifeMax)),
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
                         new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax)),
-                        null,
+                        tableViewScreenResolution.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenResolution.getSelectionModel().getSelectedItem().getScreenResolution(),
                         null,
                         new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax)),
                         null)));
@@ -151,17 +166,15 @@ public class Controller {
                     paneFilterPhone.setVisible(false);
                     paneFilterComputer.setVisible(true);
                     selectedFilter = Constants.COMPUTER;
-                    tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
-                    tableViewBrand.setItems(getAllBrandsFX());
                     break;
                 case Constants.PHONE:
                     paneFilterComputer.setVisible(false);
                     paneFilterPhone.setVisible(true);
                     selectedFilter = Constants.PHONE;
-                    tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
-                    tableViewBrand.setItems(getAllBrandsFX());
                     break;
             }
+
+            fillFilters();
         });
     }
 
