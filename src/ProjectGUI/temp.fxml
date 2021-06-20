@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -14,6 +11,8 @@
                 <ToggleGroup fx:id="toggleGroupProductType" />
             </toggleGroup>
         </RadioButton>
+
+        <RadioButton fx:id="radioButtonPhone" layoutX="100.0" layoutY="22.0" mnemonicParsing="false" text="Phone" toggleGroup="$toggleGroupProductType" />
         <!--Products -->
         <TableView fx:id="tableViewBrand" layoutX="14.0" layoutY="60.0" prefHeight="100.0" prefWidth="146.0">
             <columns>
@@ -36,8 +35,6 @@
                 <TableColumn fx:id="columnScreenSize" prefWidth="145.0" text="Screen Size" />
             </columns>
         </TableView>
-
-        <RadioButton fx:id="radioButtonPhone" layoutX="100.0" layoutY="22.0" mnemonicParsing="false" text="Phone" toggleGroup="$toggleGroupProductType" />
         <Pane fx:id="paneFilterPhone" layoutY="530.0" prefHeight="139.0" prefWidth="200.0">
             <children> <!--Phone -->
                 <Label layoutX="15.0" layoutY="5.0" text="Internal Memory" />
