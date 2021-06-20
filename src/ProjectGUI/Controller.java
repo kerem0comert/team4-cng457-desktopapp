@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import static ProjectGUI.Repository.getComputersFX;
 import static ProjectGUI.Repository.getPhonesFX;
 
 public class Controller {
@@ -115,7 +116,7 @@ public class Controller {
     public void getProductsPressed(ActionEvent event) {
         switch (selectedFilter) {
             case Constants.COMPUTER:
-                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(null, null, null, null, null)));
+                tableViewProducts.setItems(FXCollections.observableArrayList(getComputersFX(null, null, null, null, null, null, null, null)));
                 break;
             case Constants.PHONE:
                 tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(null, null, null, null, null)));

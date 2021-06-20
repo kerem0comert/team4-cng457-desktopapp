@@ -1,11 +1,9 @@
 package ProjectGUI;
 
 
-import ProjectGUI.Models.Constants;
+import ProjectGUI.Models.*;
+import ProjectGUI.Models.JavaFX.ComputerFX;
 import ProjectGUI.Models.JavaFX.PhoneFX;
-import ProjectGUI.Models.Phone;
-import ProjectGUI.Models.Product;
-import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.json.simple.JSONArray;
@@ -63,19 +61,6 @@ public final class Repository {
         return url;
     }
 
-    public static void getComputers(String brand, Range batteryLife, String screenSize,
-                                    Range priceRange, String screenResolution, String processor, Range memory,
-                                    Range storageCapacity) {
-        StringBuilder url = appendBaseFields(Constants.GET_COMPUTER,brand, batteryLife, screenSize, priceRange);
-        url.append(appendNonNull(Constants.SCREEN_RESOLUTION, screenResolution));
-        url.append(appendNonNull(Constants.PROCESSOR, processor));
-        url.append(appendNonNull(Constants.MIN_MEMORY, memory.getMin()));
-        url.append(appendNonNull(Constants.MAX_MEMORY, memory.getMax()));
-        url.append(appendNonNull(Constants.MIN_STORAGE_CAPACITY, storageCapacity.getMin()));
-        url.append(appendNonNull(Constants.MAX_STORAGE_CAPACITY, storageCapacity.getMax()));
-        System.out.println(url.toString());
-    }
-
     public static Product parseProduct(Object obj, Product prod) {
         int productIdFromJSON = ((Long) ((JSONObject) obj).get("productId")).intValue();
         String modelFromJSON = ((JSONObject) obj).get("model").toString();
@@ -130,5 +115,64 @@ public final class Repository {
         }
 
         return phonesFX;
+    }
+
+    public static ArrayList<Computer> getComputersAsModel(String brand, Range batteryLife, String screenSize,
+                                                    Range priceRange, String screenResolution, String processor, Range memory,
+                                                       Range storageCapacity) {
+        StringBuilder url = appendBaseFields(Constants.GET_COMPUTER, brand, batteryLife, screenSize, priceRange);
+        url.append(appendNonNull(Constants.SCREEN_RESOLUTION, screenResolution));
+        url.append(appendNonNull(Constants.PROCESSOR, processor));
+        url.append(appendNonNull(Constants.MIN_MEMORY, memory == null ? null : memory.getMin()));
+        url.append(appendNonNull(Constants.MAX_MEMORY, memory == null ? null : memory.getMax()));
+        url.append(appendNonNull(Constants.MIN_STORAGE_CAPACITY, storageCapacity == null ? null : storageCapacity.getMin()));
+        url.append(appendNonNull(Constants.MAX_STORAGE_CAPACITY, storageCapacity == null ? null : storageCapacity.getMax()));
+
+        ArrayList<Computer> computers = new ArrayList<Computer>();
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            Computer newComputer = (Computer) parseProduct(obj, new Computer());
+
+            String screenResolutionFromJSON = ((JSONObject) obj).get("screenResolution").toString();
+            String processorFromJSON = ((JSONObject) obj).get("processor").toString();
+            int memoryFromJSON = ((Long) ((JSONObject) obj).get("memory")).intValue();
+            int storageCapacityFromJSON = ((Long) ((JSONObject) obj).get("storageCapacity")).intValue();
+
+            newComputer.setScreenResolution(screenResolutionFromJSON);
+            newComputer.setProcessor(processorFromJSON);
+            newComputer.setMemory(memoryFromJSON);
+            newComputer.setStorageCapacity(storageCapacityFromJSON);
+
+            computers.add(newComputer);
+        }
+
+        return computers;
+    }
+
+    public static ObservableList<ComputerFX> getComputersFX(String brand, Range batteryLife, String screenSize,
+                                                            Range priceRange, String screenResolution, String processor, Range memory,
+                                                            Range storageCapacity) {
+        ObservableList<ComputerFX> computerFX = FXCollections.observableArrayList();
+
+        ArrayList<Computer> computers = getComputersAsModel(brand, batteryLife, screenSize, priceRange, screenResolution, processor, memory, storageCapacity);
+
+        for (Computer computer : computers) {
+            ComputerFX newComputerFX = new ComputerFX();
+
+            newComputerFX.setMemory(computer.getMemory());
+            newComputerFX.setProcessor(computer.getProcessor());
+            newComputerFX.setModel(computer.getModel());
+            newComputerFX.setPrice(computer.getPrice());
+            newComputerFX.setScreenResolution(computer.getScreenResolution());
+            newComputerFX.setBatteryLife(computer.getBatteryLife());
+            newComputerFX.setProductId(computer.getProductId());
+            newComputerFX.setScreenSize(computer.getScreenSize());
+
+            computerFX.add(newComputerFX);
+        }
+
+        return computerFX;
     }
 }
