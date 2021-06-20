@@ -586,6 +586,139 @@ public class Controller {
             }
         }
 
+        ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
+        ReviewFX newReviewFX;
+
+        if (selectedProducts.get(0).getReviewList() != null && !selectedProducts.get(0).getReviewList().isEmpty())
+        {
+            ArrayList<Review> reviews = selectedProducts.get(0).getReviewList();
+
+            for (Review review: reviews)
+            {
+                newReviewFX = new ReviewFX();
+                String rating = "";
+
+                for(int i=0;i<review.getRating();i++){
+                    rating += "★";
+                }
+
+                for(int i=0;i<5-review.getRating();i++){
+                    rating += "☆";
+                }
+
+                newReviewFX.setReview1(rating);
+                newReviewFX.setDescription1(review.getComment());
+                ReviewFXList.add(newReviewFX);
+            }
+        }
+
+        if (selectedProducts.size() > 1)
+        {
+            int i = 0;
+
+            if (selectedProducts.get(1).getReviewList() != null && !selectedProducts.get(1).getReviewList().isEmpty())
+            {
+                ArrayList<Review> reviews = selectedProducts.get(1).getReviewList();
+
+                for (Review review: reviews)
+                {
+
+                    if (ReviewFXList.size() >= i)
+                    {
+                        newReviewFX = ReviewFXList.get(i);
+                        String rating = "";
+
+                        for(int j=0;j<review.getRating();j++){
+                            rating += "★";
+                        }
+
+                        for(int j=0;j<5-review.getRating();j++){
+                            rating += "☆";
+                        }
+
+                        newReviewFX.setReview2(rating);
+
+
+                        newReviewFX.setDescription2(review.getComment());
+                    }
+                    else
+                    {
+                        newReviewFX = new ReviewFX();
+                        String rating = "";
+
+                        for(int j=0;j<review.getRating();j++){
+                            rating += "★";
+                        }
+
+                        for(int j=0;j<5-review.getRating();j++){
+                            rating += "☆";
+                        }
+
+                        newReviewFX.setReview2(rating);
+                        newReviewFX.setDescription2(review.getComment());
+                        ReviewFXList.add(newReviewFX);
+                    }
+
+                }
+            }
+
+
+        }
+
+        if (selectedProducts.size() > 2)
+        {
+            int i = 0;
+
+            if (selectedProducts.get(2).getReviewList() != null && !selectedProducts.get(2).getReviewList().isEmpty())
+            {
+                ArrayList<Review> reviews = selectedProducts.get(2).getReviewList();
+
+                for (Review review: reviews)
+                {
+
+                    if (ReviewFXList.size() >= i)
+                    {
+                        newReviewFX = ReviewFXList.get(i);
+                        String rating = "";
+
+                        for(int j=0;j<review.getRating();j++){
+                            rating += "★";
+                        }
+
+                        for(int j=0;j<5-review.getRating();j++){
+                            rating += "☆";
+                        }
+
+                        newReviewFX.setReview3(rating);
+
+
+                        newReviewFX.setDescription3(review.getComment());
+                    }
+                    else
+                    {
+                        newReviewFX = new ReviewFX();
+                        String rating = "";
+
+                        for(int j=0;j<review.getRating();j++){
+                            rating += "★";
+                        }
+
+                        for(int j=0;j<5-review.getRating();j++){
+                            rating += "☆";
+                        }
+
+                        newReviewFX.setReview3(rating);
+                        newReviewFX.setDescription3(review.getComment());
+                        ReviewFXList.add(newReviewFX);
+                    }
+
+                }
+            }
+
+
+        }
+        tableViewReviews.setItems(ReviewFXList);
+
         tableViewFeatures.setItems(informationFXList);
     }
 
