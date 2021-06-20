@@ -96,7 +96,7 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <TableView layoutX="312.0" layoutY="408.0" prefHeight="373.0" prefWidth="274.0" />
+        <TableView layoutX="312.0" layoutY="422.0" prefHeight="359.0" prefWidth="274.0" />
         <Separator layoutX="18.0" layoutY="391.0" prefHeight="17.0" prefWidth="567.0" />
       <ScrollPane layoutX="16.0" layoutY="407.0" prefHeight="381.0" prefWidth="284.0">
         <content>
@@ -120,6 +120,9 @@
             <TableColumn fx:id="columnProduct3Review" prefWidth="89.19998168945312" text="Product 3" />
          </columns></TableView>
         <Separator layoutX="18.0" layoutY="391.0" prefHeight="17.0" prefWidth="567.0" />
-      <Label layoutX="313.0" layoutY="402.0" text="Ratings" />
+      <Label layoutX="313.0" layoutY="402.0" text="Ratings">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
     </children>
 </Pane>
