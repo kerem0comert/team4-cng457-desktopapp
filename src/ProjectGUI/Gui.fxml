@@ -84,7 +84,7 @@
             </columns>
         </TableView>
         <Button fx:id="buttonGetProducts" layoutX="18.0" layoutY="366.0" mnemonicParsing="false" onAction="#getProductsPressed" text="Get Products" />
-        <Button fx:id="buttonSortByPrice" layoutX="426.0" layoutY="366.0" mnemonicParsing="false" text="Sort By Price" />
+        <Button fx:id="buttonSortByPrice" layoutX="426.0" layoutY="366.0" mnemonicParsing="false" onAction="#sortByPriceAction" text="Sort By Price" />
         <Button fx:id="buttonCompare" layoutX="517.0" layoutY="366.0" mnemonicParsing="false" onAction="#comparePressed" text="Compare" />
         <Label layoutX="233.0" layoutY="14.0" text="Products">
             <font>
@@ -113,5 +113,13 @@
                </children></AnchorPane>
         </content>
       </ScrollPane>
+        <TableView fx:id="tableViewReviews" layoutX="312.0" layoutY="422.0" prefHeight="359.0" prefWidth="274.0">
+         <columns>
+            <TableColumn fx:id="columnProduct1Review" prefWidth="86.00003051757812" text="Product 1" />
+            <TableColumn fx:id="columnProduct2Review" prefWidth="99.5999755859375" text="Product 2" />
+            <TableColumn fx:id="columnProduct3Review" prefWidth="89.19998168945312" text="Product 3" />
+         </columns></TableView>
+        <Separator layoutX="18.0" layoutY="391.0" prefHeight="17.0" prefWidth="567.0" />
+      <Label layoutX="313.0" layoutY="402.0" text="Ratings" />
     </children>
 </Pane>

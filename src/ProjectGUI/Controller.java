@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -100,6 +101,17 @@ public class Controller {
     private TableColumn<ProductFX, String> columnName;
 
     @FXML
+    private TableView<ReviewFX> tableViewReviews;
+
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct1Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct2Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct3Review;
+
+
+    @FXML
     private TableColumn<ProductFX, Integer> columnPrice;
     //endregion
 
@@ -118,6 +130,7 @@ public class Controller {
         initToggleGroupListener();
         //initGetProductsListener();
         fillFilters();
+
     }
 
     private void fillFilters()
@@ -156,6 +169,104 @@ public class Controller {
         tableViewProducts.getSelectionModel().setSelectionMode(
                 SelectionMode.MULTIPLE
         );
+        columnProduct1Review.setCellValueFactory(new PropertyValueFactory("review1"));
+        columnProduct2Review.setCellValueFactory(new PropertyValueFactory("review2"));
+        columnProduct3Review.setCellValueFactory(new PropertyValueFactory("review3"));
+
+        setCellFactories();
+
+    }
+
+    private void setCellFactories() {   // For reviews table
+
+        columnProduct1Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(1);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+        columnProduct2Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(2);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+        columnProduct3Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(3);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+    }
+
+    private void openDialog(int column) {
+
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Comment");
+
+        if (tableViewReviews.getSelectionModel().getSelectedItem() == null)
+            return;
+
+       ReviewFX selectedReview = tableViewReviews.getSelectionModel().getSelectedItem();
+
+       if(column == 1)
+           a.setContentText(selectedReview.getDescription1());
+
+       else if(column == 2)
+           a.setContentText(selectedReview.getDescription2());
+
+       else
+           a.setContentText(selectedReview.getDescription3());
+
+        a.show();
     }
 
     public void selectedProductChanged(InputEvent event)
@@ -184,8 +295,35 @@ public class Controller {
                 .collect(Collectors.toList()).get(0);
 
         ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+        ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
 
         ProductInformationFX newInformationFX;
+        ReviewFX newReviewFX;
+        
+        if (selectedProduct.getReviewList() != null || !selectedProduct.getReviewList().isEmpty())
+        {
+            ArrayList<Review> reviews = selectedProduct.getReviewList();
+
+            for (Review review: reviews)
+            {
+                newReviewFX = new ReviewFX();
+                String rating = "";
+
+                for(int i=0;i<review.getRating();i++){
+                    rating += "★";
+                }
+
+                for(int i=0;i<5-review.getRating();i++){
+                    rating += "☆";
+                }
+
+                newReviewFX.setReview1(rating);
+                newReviewFX.setDescription1(review.getComment());
+                ReviewFXList.add(newReviewFX);
+            }
+        }
+
+        tableViewReviews.setItems(ReviewFXList);
 
         newInformationFX = new ProductInformationFX();
         newInformationFX.setFeatureName("Model");
@@ -370,6 +508,9 @@ public class Controller {
                 newInformationFX.setFeature2(((Phone)selectedProducts.get(1)).getInternalMemory().toString());
                 if (selectedProducts.size() > 2)
                     newInformationFX.setFeature3(((Phone)selectedProducts.get(2)).getInternalMemory().toString());
+        tableViewFeatures.setItems(informationFXList);
+
+
 
                 informationFXList.add(newInformationFX);
                 break;
@@ -478,6 +619,20 @@ public class Controller {
 
     }
 
+    public void sortByPriceAction(ActionEvent event) {
+
+        if(columnPrice.getSortType()==TableColumn.SortType.DESCENDING)
+            columnPrice.setSortType(TableColumn.SortType.ASCENDING);
+
+        else
+            columnPrice.setSortType(TableColumn.SortType.DESCENDING);
+
+        tableViewProducts.getSortOrder().add(columnPrice);
+        tableViewProducts.sort();
+
+    }
+
+
     private void initToggleGroupListener() {
         paneFilterPhone.setVisible(false); //Initially not visible as computer is pre-selected
         selectedFilter = Constants.COMPUTER;
@@ -513,4 +668,21 @@ public class Controller {
             return null; //If the text is empty, the casting would not succeed.
         }
     }
+
+  /*  @FXML
+    public void clickItem(MouseEvent event)
+    {
+        if (event.getClickCount() == 2) //Checking double click
+        {
+
+            if(tableViewReviews.getSelectionModel().getSelectedItem().getReview1() == ""){
+                System.out.println("Empty");
+            }
+            else
+                System.out.println("not empty");
+
+        }
+    }*/
+
+
 }
