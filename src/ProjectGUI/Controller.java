@@ -327,7 +327,7 @@ public class Controller {
 
         newInformationFX = new ProductInformationFX();
         newInformationFX.setFeatureName("Model");
-        newInformationFX.setFeature1(selectedProduct.getModel());
+        newInformationFX.setFeature1(selectedProduct.getModel().split(" ")[1]);
         newInformationFX.setFeature2("");
         informationFXList.add(newInformationFX);
 
@@ -434,10 +434,10 @@ public class Controller {
 
         newInformationFX = new ProductInformationFX();
         newInformationFX.setFeatureName("Model");
-        newInformationFX.setFeature1(selectedProducts.get(0).getModel());
-        newInformationFX.setFeature2(selectedProducts.get(1).getModel());
+        newInformationFX.setFeature1(selectedProducts.get(0).getModel().split(" ")[1]);
+        newInformationFX.setFeature2(selectedProducts.get(1).getModel().split(" ")[1]);
         if (selectedProducts.size() > 2)
-            newInformationFX.setFeature3(selectedProducts.get(2).getModel());
+            newInformationFX.setFeature3(selectedProducts.get(2).getModel().split(" ")[1]);
         informationFXList.add(newInformationFX);
 
         newInformationFX = new ProductInformationFX();

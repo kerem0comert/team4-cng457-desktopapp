@@ -66,9 +66,10 @@ public final class Repository {
         int batteryLifeFromJSON = ((Long) ((JSONObject) obj).get("batteryLife")).intValue();
         String screenSizeFromJSON = ((JSONObject) obj).get("screenSize").toString();
         int priceFromJSON = ((Long) ((JSONObject) obj).get("price")).intValue();
+        String brandFromJSON = ((JSONObject)((JSONObject) obj).get("brand")).get("brandName").toString();
 
         prod.setProductId(productIdFromJSON);
-        prod.setModel(modelFromJSON);
+        prod.setModel(brandFromJSON + " " + modelFromJSON);
         prod.setBatteryLife(batteryLifeFromJSON);
         prod.setScreenSize(screenSizeFromJSON);
         prod.setPrice(priceFromJSON);
