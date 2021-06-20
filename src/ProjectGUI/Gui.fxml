@@ -103,7 +103,7 @@
             <TableColumn fx:id="columnProduct2" prefWidth="81.0" text="Product 2" />
             </columns>
         </TableView>
-        <TableView fx:id="tableViewReviews" layoutX="312.0" layoutY="422.0" onMouseClicked="#clickItem" prefHeight="359.0" prefWidth="274.0">
+        <TableView fx:id="tableViewReviews" layoutX="312.0" layoutY="422.0" prefHeight="359.0" prefWidth="274.0">
          <columns>
             <TableColumn fx:id="columnProduct1Review" prefWidth="86.00003051757812" text="Product 1" />
             <TableColumn fx:id="columnProduct2Review" prefWidth="99.5999755859375" text="Product 2" />

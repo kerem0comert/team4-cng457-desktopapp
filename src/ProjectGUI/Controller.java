@@ -164,6 +164,102 @@ public class Controller {
         columnProduct1Review.setCellValueFactory(new PropertyValueFactory("review1"));
         columnProduct2Review.setCellValueFactory(new PropertyValueFactory("review2"));
         columnProduct3Review.setCellValueFactory(new PropertyValueFactory("review3"));
+
+        setCellFactories();
+
+    }
+
+    private void setCellFactories() {   // For reviews table
+
+        columnProduct1Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(1);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+        columnProduct2Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(2);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+        columnProduct3Review.setCellFactory(tc -> {
+            TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    setText(empty ? null : item);
+                }
+            };
+            cell.setOnMouseClicked(e -> {
+
+                if (e.getClickCount() == 2) {
+
+                    if (cell.getText() == "" || cell.getText() == null) {
+
+                    } else{
+                        openDialog(3);
+                    }
+                }
+            });
+            return cell ;
+        });
+
+    }
+
+    private void openDialog(int column) {
+
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Comment");
+
+        if (tableViewReviews.getSelectionModel().getSelectedItem() == null)
+            return;
+
+       ReviewFX selectedReview = tableViewReviews.getSelectionModel().getSelectedItem();
+
+       if(column == 1)
+           a.setContentText(selectedReview.getDescription1());
+
+       else if(column == 2)
+           a.setContentText(selectedReview.getDescription2());
+
+       else
+           a.setContentText(selectedReview.getDescription3());
+
+        a.show();
+
     }
 
     public void selectedProductChanged(InputEvent event)
@@ -289,24 +385,9 @@ public class Controller {
                 }
 
                 newReviewFX.setReview1(rating);
-                newReviewFX.setReview2("");
-                newReviewFX.setReview3("");
+                newReviewFX.setDescription1(review.getComment());
                 ReviewFXList.add(newReviewFX);
             }
-
-            newReviewFX = new ReviewFX();
-            newReviewFX.setReview1("");
-            newReviewFX.setReview2("");
-            newReviewFX.setReview3("");
-            ReviewFXList.add(newReviewFX);
-
-            newReviewFX = new ReviewFX();
-            newReviewFX.setReview1("");
-            newReviewFX.setReview2("");
-            newReviewFX.setReview3("");
-            ReviewFXList.add(newReviewFX);
-
-
         }
 
         tableViewReviews.setItems(ReviewFXList);
@@ -389,7 +470,7 @@ public class Controller {
         }
     }
 
-    @FXML
+  /*  @FXML
     public void clickItem(MouseEvent event)
     {
         if (event.getClickCount() == 2) //Checking double click
@@ -402,7 +483,7 @@ public class Controller {
                 System.out.println("not empty");
 
         }
-    }
+    }*/
 
 
 }
