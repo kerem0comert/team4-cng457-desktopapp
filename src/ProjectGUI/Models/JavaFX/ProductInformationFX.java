@@ -7,11 +7,13 @@ public class ProductInformationFX {
     private SimpleStringProperty featureName;
     private SimpleStringProperty feature1;
     private SimpleStringProperty feature2;
+    private SimpleStringProperty feature3;
 
     public ProductInformationFX() {
         featureName = new SimpleStringProperty();
         feature1 = new SimpleStringProperty();
         feature2 = new SimpleStringProperty();
+        feature3 = new SimpleStringProperty();
     }
 
     public String getFeatureName() {
@@ -48,5 +50,17 @@ public class ProductInformationFX {
 
     public StringProperty feature2Property() {
         return feature2;
+    }
+
+    public String getFeature3() {
+        return feature3.get();
+    }
+
+    public void setFeature3(String newVal) {
+        feature3.set(newVal);
+    }
+
+    public StringProperty feature3Property() {
+        return feature3;
     }
 }

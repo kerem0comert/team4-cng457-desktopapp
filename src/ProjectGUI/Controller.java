@@ -12,6 +12,7 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +54,8 @@ public class Controller {
     public TableColumn<ProductInformationFX, String> columnFeatures;
     @FXML
     public TableView<ProductInformationFX> tableViewFeatures;
+    @FXML
+    public TableColumn<ProductInformationFX, String> columnProduct3;
     private String selectedFilter;
     //region Filters
     @FXML
@@ -148,12 +151,33 @@ public class Controller {
         columnFeatures.setCellValueFactory(new PropertyValueFactory("featureName"));
         columnProduct1.setCellValueFactory(new PropertyValueFactory("feature1"));
         columnProduct2.setCellValueFactory(new PropertyValueFactory("feature2"));
+        columnProduct3.setCellValueFactory(new PropertyValueFactory("feature3"));
+
+        tableViewProducts.getSelectionModel().setSelectionMode(
+                SelectionMode.MULTIPLE
+        );
     }
 
     public void selectedProductChanged(InputEvent event)
     {
-        if (tableViewProducts.getSelectionModel().getSelectedItem() == null)
+        if (tableViewProducts.getSelectionModel().getSelectedItems().isEmpty())
             return;
+
+        ObservableList<ProductFX> selectedItems = tableViewProducts.getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() > 1)
+        {
+            ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+            ProductInformationFX newInformationFX;
+
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Press");
+            newInformationFX.setFeature1("Compare");
+            newInformationFX.setFeature2("");
+            informationFXList.add(newInformationFX);
+            tableViewFeatures.setItems(informationFXList);
+            return;
+        }
 
         Product selectedProduct = fetchedProducts.stream()
                 .filter(x -> x.getProductId().intValue() == tableViewProducts.getSelectionModel().getSelectedItem().getProductId())
@@ -246,14 +270,186 @@ public class Controller {
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
             }
+        }
+        tableViewFeatures.setItems(informationFXList);
+    }
 
+    public void comparePressed(ActionEvent event)
+    {
+        ObservableList<ProductFX> selectedItems = tableViewProducts.getSelectionModel().getSelectedItems();
 
+        if (selectedItems.size() <= 1)
+            return;
+
+        ArrayList<Product> selectedProducts = new ArrayList<Product>();
+
+        for (ProductFX productFX: selectedItems)
+        {
+            selectedProducts.add(fetchedProducts.stream()
+                    .filter(x -> x.getProductId().intValue() == productFX.getProductId())
+                    .collect(Collectors.toList()).get(0));
         }
 
+        ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+
+        ProductInformationFX newInformationFX;
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Model");
+        newInformationFX.setFeature1(selectedProducts.get(0).getModel());
+        newInformationFX.setFeature2(selectedProducts.get(1).getModel());
+        if (selectedProducts.size() > 2)
+            newInformationFX.setFeature3(selectedProducts.get(2).getModel());
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Price");
+        newInformationFX.setFeature1(selectedProducts.get(0).getPrice().toString());
+        newInformationFX.setFeature2(selectedProducts.get(1).getPrice().toString());
+        if (selectedProducts.size() > 2)
+            newInformationFX.setFeature3(selectedProducts.get(2).getPrice().toString());
+
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Battery Life");
+        newInformationFX.setFeature1(selectedProducts.get(0).getBatteryLife().toString());
+        newInformationFX.setFeature2(selectedProducts.get(1).getBatteryLife().toString());
+        if (selectedProducts.size() > 2)
+            newInformationFX.setFeature3(selectedProducts.get(2).getBatteryLife().toString());
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Screen Size");
+        newInformationFX.setFeature1(selectedProducts.get(0).getScreenSize());
+        newInformationFX.setFeature2(selectedProducts.get(1).getScreenSize());
+        if (selectedProducts.size() > 2)
+            newInformationFX.setFeature3(selectedProducts.get(2).getScreenSize());
+        informationFXList.add(newInformationFX);
+
+        switch (selectedFilter) {
+            case Constants.COMPUTER:
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Screen Resolution");
+                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getScreenResolution());
+                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getScreenResolution());
+                if (selectedProducts.size() > 2)
+                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getScreenResolution());
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Processor");
+                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getProcessor());
+                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getProcessor());
+                if (selectedProducts.size() > 2)
+                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getProcessor());
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Memory");
+                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getMemory().toString());
+                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getMemory().toString());
+                if (selectedProducts.size() > 2)
+                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getMemory().toString());
+
+                informationFXList.add(newInformationFX);
+
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Storage Capacity");
+                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getStorageCapacity().toString());
+                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getStorageCapacity().toString());
+                if (selectedProducts.size() > 2)
+                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getStorageCapacity().toString());
+
+                informationFXList.add(newInformationFX);
+                break;
+            case Constants.PHONE:
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("Internal Memory");
+                newInformationFX.setFeature1(((Phone)selectedProducts.get(0)).getInternalMemory().toString());
+                newInformationFX.setFeature2(((Phone)selectedProducts.get(1)).getInternalMemory().toString());
+                if (selectedProducts.size() > 2)
+                    newInformationFX.setFeature3(((Phone)selectedProducts.get(2)).getInternalMemory().toString());
+
+                informationFXList.add(newInformationFX);
+                break;
+        }
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("");
+        informationFXList.add(newInformationFX);
+
+        newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Extra Features:");
+        informationFXList.add(newInformationFX);
+
+        int extraFeaturesListIndex = informationFXList.size() - 1;
+
+        if (selectedProducts.get(0).getExtraFeaturesList() != null || !selectedProducts.get(0).getExtraFeaturesList().isEmpty())
+        {
+            ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(0).getExtraFeaturesList();
+
+            for (ExtraFeature extraFeature: extraFeatures)
+            {
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("");
+                newInformationFX.setFeature1(extraFeature.getFeatureName());
+                informationFXList.add(newInformationFX);
+            }
+        }
+
+        if (selectedProducts.get(1).getExtraFeaturesList() != null || !selectedProducts.get(1).getExtraFeaturesList().isEmpty())
+        {
+            ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(1).getExtraFeaturesList();
+
+            int i = extraFeaturesListIndex;
+
+            for (ExtraFeature extraFeature: extraFeatures)
+            {
+                i++;
+                if (informationFXList.size() >= i + 1)
+                {
+                    newInformationFX = informationFXList.get(i);
+                    newInformationFX.setFeature2(extraFeature.getFeatureName());
+                }
+                else
+                {
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("");
+                    newInformationFX.setFeature2(extraFeature.getFeatureName());
+                    informationFXList.add(newInformationFX);
+                }
+            }
+        }
+
+        if (selectedProducts.size() > 2)
+        {
+            if (selectedProducts.get(2).getExtraFeaturesList() != null || !selectedProducts.get(2).getExtraFeaturesList().isEmpty())
+            {
+                ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(2).getExtraFeaturesList();
+
+                int i = extraFeaturesListIndex;
+
+                for (ExtraFeature extraFeature: extraFeatures)
+                {
+                    i++;
+                    if (informationFXList.size() >= i + 1)
+                    {
+                        newInformationFX = informationFXList.get(i);
+                        newInformationFX.setFeature3(extraFeature.getFeatureName());
+                    }
+                    else
+                    {
+                        newInformationFX = new ProductInformationFX();
+                        newInformationFX.setFeatureName("");
+                        newInformationFX.setFeature3(extraFeature.getFeatureName());
+                        informationFXList.add(newInformationFX);
+                    }
+                }
+            }
+        }
 
         tableViewFeatures.setItems(informationFXList);
-
-
     }
 
     public void getProductsPressed(ActionEvent event) {

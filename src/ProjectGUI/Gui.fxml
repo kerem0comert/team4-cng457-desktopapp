@@ -85,7 +85,7 @@
         </TableView>
         <Button fx:id="buttonGetProducts" layoutX="18.0" layoutY="366.0" mnemonicParsing="false" onAction="#getProductsPressed" text="Get Products" />
         <Button fx:id="buttonSortByPrice" layoutX="426.0" layoutY="366.0" mnemonicParsing="false" text="Sort By Price" />
-        <Button fx:id="buttonCompare" layoutX="517.0" layoutY="366.0" mnemonicParsing="false" text="Compare" />
+        <Button fx:id="buttonCompare" layoutX="517.0" layoutY="366.0" mnemonicParsing="false" onAction="#comparePressed" text="Compare" />
         <Label layoutX="233.0" layoutY="14.0" text="Products">
             <font>
                 <Font name="System Bold" size="12.0" />
@@ -96,14 +96,22 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <TableView fx:id="tableViewFeatures" layoutX="18.0" layoutY="408.0" prefHeight="373.0" prefWidth="274.0">
-            <columns>
-                <TableColumn fx:id="columnFeatures" prefWidth="108.0" text="Features" />
-            <TableColumn fx:id="columnProduct1" prefWidth="84.0" text="Product 1" />
-            <TableColumn fx:id="columnProduct2" prefWidth="81.0" text="Product 2" />
-            </columns>
-        </TableView>
         <TableView layoutX="312.0" layoutY="408.0" prefHeight="373.0" prefWidth="274.0" />
         <Separator layoutX="18.0" layoutY="391.0" prefHeight="17.0" prefWidth="567.0" />
+      <ScrollPane layoutX="16.0" layoutY="407.0" prefHeight="381.0" prefWidth="284.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="356.0">
+               <children>
+                    <TableView fx:id="tableViewFeatures" prefHeight="365.0" prefWidth="364.0">
+                        <columns>
+                            <TableColumn fx:id="columnFeatures" prefWidth="108.0" text="Features" />
+                        <TableColumn fx:id="columnProduct1" prefWidth="84.0" text="Product 1" />
+                        <TableColumn fx:id="columnProduct2" prefWidth="89.0" text="Product 2" />
+                        <TableColumn fx:id="columnProduct3" text="Product 3" />
+                        </columns>
+                    </TableView>
+               </children></AnchorPane>
+        </content>
+      </ScrollPane>
     </children>
 </Pane>
