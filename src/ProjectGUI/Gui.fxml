@@ -103,7 +103,13 @@
             <TableColumn fx:id="columnProduct2" prefWidth="81.0" text="Product 2" />
             </columns>
         </TableView>
-        <TableView layoutX="312.0" layoutY="408.0" prefHeight="373.0" prefWidth="274.0" />
+        <TableView fx:id="tableViewReviews" layoutX="312.0" layoutY="422.0" onMouseClicked="#clickItem" prefHeight="359.0" prefWidth="274.0">
+         <columns>
+            <TableColumn fx:id="columnProduct1Review" prefWidth="86.00003051757812" text="Product 1" />
+            <TableColumn fx:id="columnProduct2Review" prefWidth="99.5999755859375" text="Product 2" />
+            <TableColumn fx:id="columnProduct3Review" prefWidth="89.19998168945312" text="Product 3" />
+         </columns></TableView>
         <Separator layoutX="18.0" layoutY="391.0" prefHeight="17.0" prefWidth="567.0" />
+      <Label layoutX="313.0" layoutY="402.0" text="Ratings" />
     </children>
 </Pane>

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -97,6 +98,17 @@ public class Controller {
     private TableColumn<ProductFX, String> columnName;
 
     @FXML
+    private TableView<ReviewFX> tableViewReviews;
+
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct1Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct2Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct3Review;
+
+
+    @FXML
     private TableColumn<ProductFX, Integer> columnPrice;
     //endregion
 
@@ -149,6 +161,9 @@ public class Controller {
         columnFeatures.setCellValueFactory(new PropertyValueFactory("featureName"));
         columnProduct1.setCellValueFactory(new PropertyValueFactory("feature1"));
         columnProduct2.setCellValueFactory(new PropertyValueFactory("feature2"));
+        columnProduct1Review.setCellValueFactory(new PropertyValueFactory("review1"));
+        columnProduct2Review.setCellValueFactory(new PropertyValueFactory("review2"));
+        columnProduct3Review.setCellValueFactory(new PropertyValueFactory("review3"));
     }
 
     public void selectedProductChanged(InputEvent event)
@@ -161,8 +176,11 @@ public class Controller {
                 .collect(Collectors.toList()).get(0);
 
         ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+        ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
 
         ProductInformationFX newInformationFX;
+        ReviewFX newReviewFX;
+
 
         newInformationFX = new ProductInformationFX();
         newInformationFX.setFeatureName("Model");
@@ -251,9 +269,47 @@ public class Controller {
 
         }
 
-
         tableViewFeatures.setItems(informationFXList);
 
+        if (selectedProduct.getReviewList() != null || !selectedProduct.getReviewList().isEmpty())
+        {
+            ArrayList<Review> reviews = selectedProduct.getReviewList();
+
+            for (Review review: reviews)
+            {
+                newReviewFX = new ReviewFX();
+                String rating = "";
+
+                for(int i=0;i<review.getRating();i++){
+                    rating += "★";
+                }
+
+                for(int i=0;i<5-review.getRating();i++){
+                    rating += "☆";
+                }
+
+                newReviewFX.setReview1(rating);
+                newReviewFX.setReview2("");
+                newReviewFX.setReview3("");
+                ReviewFXList.add(newReviewFX);
+            }
+
+            newReviewFX = new ReviewFX();
+            newReviewFX.setReview1("");
+            newReviewFX.setReview2("");
+            newReviewFX.setReview3("");
+            ReviewFXList.add(newReviewFX);
+
+            newReviewFX = new ReviewFX();
+            newReviewFX.setReview1("");
+            newReviewFX.setReview2("");
+            newReviewFX.setReview3("");
+            ReviewFXList.add(newReviewFX);
+
+
+        }
+
+        tableViewReviews.setItems(ReviewFXList);
 
     }
 
@@ -332,4 +388,21 @@ public class Controller {
             return null; //If the text is empty, the casting would not succeed.
         }
     }
+
+    @FXML
+    public void clickItem(MouseEvent event)
+    {
+        if (event.getClickCount() == 2) //Checking double click
+        {
+
+            if(tableViewReviews.getSelectionModel().getSelectedItem().getReview1() == ""){
+                System.out.println("Empty");
+            }
+            else
+                System.out.println("not empty");
+
+        }
+    }
+
+
 }

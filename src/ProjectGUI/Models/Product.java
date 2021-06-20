@@ -17,4 +17,5 @@ public abstract class Product {
     private Integer price;
 
     private ArrayList<ExtraFeature> extraFeaturesList;
+    private ArrayList<Review> reviewList;
 }

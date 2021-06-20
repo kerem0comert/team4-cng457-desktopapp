@@ -75,7 +75,11 @@ public final class Repository {
 
         JSONArray extraFeatures = (JSONArray)((JSONObject)obj).get("extraFeaturesList");
 
+        JSONArray reviews = (JSONArray) ((JSONObject)obj).get("reviewList");
+
+
         ArrayList<ExtraFeature> newExtraFeaturesList = new ArrayList<ExtraFeature>();
+        ArrayList<Review> newReviewList = new ArrayList<Review>();
 
         for (Object extraFeature : extraFeatures) {
             String featureNameJSON = ((JSONObject) extraFeature).get("featureName").toString();
@@ -88,6 +92,19 @@ public final class Repository {
         }
 
         prod.setExtraFeaturesList(newExtraFeaturesList);
+
+        for (Object review : reviews) {
+            String commentJSON = ((JSONObject) review).get("comment").toString();
+            String ratingJSON = ((JSONObject) review).get("rating").toString();
+
+            Review newReview = new Review();
+            newReview.setComment(commentJSON);
+            newReview.setRating(Integer.valueOf(ratingJSON));
+            newReviewList.add(newReview);
+        }
+
+        prod.setReviewList(newReviewList);
+
 
         return prod;
     }
