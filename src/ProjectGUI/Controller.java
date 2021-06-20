@@ -9,10 +9,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -219,6 +219,34 @@ public class Controller {
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
                 break;
+        }
+
+        if (selectedProduct.getExtraFeaturesList() != null || !selectedProduct.getExtraFeaturesList().isEmpty())
+        {
+            ArrayList<ExtraFeature> extraFeatures = selectedProduct.getExtraFeaturesList();
+
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("");
+            newInformationFX.setFeature1("");
+            newInformationFX.setFeature2("");
+            informationFXList.add(newInformationFX);
+
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Extra Features:");
+            newInformationFX.setFeature1("");
+            newInformationFX.setFeature2("");
+            informationFXList.add(newInformationFX);
+
+            for (ExtraFeature extraFeature: extraFeatures)
+            {
+                newInformationFX = new ProductInformationFX();
+                newInformationFX.setFeatureName("");
+                newInformationFX.setFeature1(extraFeature.getFeatureName());
+                newInformationFX.setFeature2("");
+                informationFXList.add(newInformationFX);
+            }
+
+
         }
 
 

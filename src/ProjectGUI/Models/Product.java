@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,4 +15,6 @@ public abstract class Product {
     private Integer batteryLife;
     private String screenSize;
     private Integer price;
+
+    private ArrayList<ExtraFeature> extraFeaturesList;
 }

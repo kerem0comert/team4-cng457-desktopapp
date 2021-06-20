@@ -73,6 +73,22 @@ public final class Repository {
         prod.setScreenSize(screenSizeFromJSON);
         prod.setPrice(priceFromJSON);
 
+        JSONArray extraFeatures = (JSONArray)((JSONObject)obj).get("extraFeaturesList");
+
+        ArrayList<ExtraFeature> newExtraFeaturesList = new ArrayList<ExtraFeature>();
+
+        for (Object extraFeature : extraFeatures) {
+            String featureNameJSON = ((JSONObject) extraFeature).get("featureName").toString();
+            String featureDescriptionJSON = ((JSONObject) extraFeature).get("description").toString();
+
+            ExtraFeature newExtraFeature = new ExtraFeature();
+            newExtraFeature.setFeatureName(featureNameJSON);
+            newExtraFeature.setDescription(featureDescriptionJSON);
+            newExtraFeaturesList.add(newExtraFeature);
+        }
+
+        prod.setExtraFeaturesList(newExtraFeaturesList);
+
         return prod;
     }
 
