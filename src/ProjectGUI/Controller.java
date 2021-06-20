@@ -268,7 +268,7 @@ public class Controller {
                         tableViewScreenResolution.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenResolution.getSelectionModel().getSelectedItem().getScreenResolution(),
                         tableViewProcessor.getSelectionModel().getSelectedItem() == null ? null : tableViewProcessor.getSelectionModel().getSelectedItem().getProcessor(),
                         new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax)),
-                        null)));
+                        new Range(getValue(textFieldStorageCapacityMin),getValue(textFieldStorageCapacityMax)))));
                 break;
             case Constants.PHONE:
                 tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(
