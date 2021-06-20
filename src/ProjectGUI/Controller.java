@@ -2,14 +2,21 @@ package ProjectGUI;
 
 import ProjectGUI.Models.Constants;
 import ProjectGUI.Models.JavaFX.*;
+import ProjectGUI.Models.Product;
 import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static ProjectGUI.Repository.*;
 
@@ -40,6 +47,14 @@ public class Controller {
     public TableView<ScreenResolutionFX> tableViewScreenResolution;
     @FXML
     public TableColumn<ScreenResolutionFX, String> columnScreenResolution;
+    @FXML
+    public TableColumn<ProductInformationFX, String> columnProduct1;
+    @FXML
+    public TableColumn<ProductInformationFX, String> columnProduct2;
+    @FXML
+    public TableColumn<ProductInformationFX, String> columnFeatures;
+    @FXML
+    public TableView<ProductInformationFX> tableViewFeatures;
     private String selectedFilter;
     //region Filters
     @FXML
@@ -93,6 +108,8 @@ public class Controller {
         this.stage = stage;
     }
 
+    public static List<Product> fetchedProducts = null;
+
     @FXML
     public void initialize() {
         initTable();
@@ -128,6 +145,32 @@ public class Controller {
         columnScreenSize.setCellValueFactory(new PropertyValueFactory("screenSize"));
         columnScreenResolution.setCellValueFactory(new PropertyValueFactory("screenResolution"));
         columnProcessor.setCellValueFactory(new PropertyValueFactory("processor"));
+        columnFeatures.setCellValueFactory(new PropertyValueFactory("featureName"));
+        columnProduct1.setCellValueFactory(new PropertyValueFactory("feature1"));
+        columnProduct2.setCellValueFactory(new PropertyValueFactory("feature2"));
+    }
+
+    public void selectedProductChanged(InputEvent event)
+    {
+        if (tableViewProducts.getSelectionModel().getSelectedItem() == null)
+            return;
+
+        Product selectedProduct = fetchedProducts.stream()
+                .filter(x -> x.getProductId().intValue() == tableViewProducts.getSelectionModel().getSelectedItem().getProductId())
+                .collect(Collectors.toList()).get(0);
+
+        ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+
+        ProductInformationFX newInformationFX = new ProductInformationFX();
+        newInformationFX.setFeatureName("Model");
+        newInformationFX.setFeature1(selectedProduct.getModel());
+        newInformationFX.setFeature2("");
+
+        informationFXList.add(newInformationFX);
+
+        tableViewFeatures.setItems(informationFXList);
+
+
     }
 
     public void getProductsPressed(ActionEvent event) {

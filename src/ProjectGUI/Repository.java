@@ -183,6 +183,8 @@ public final class Repository {
             phones.add(newPhone);
         }
 
+        Controller.fetchedProducts = new ArrayList<Product>(phones);
+
         return phones;
     }
 
@@ -236,6 +238,8 @@ public final class Repository {
 
             computers.add(newComputer);
         }
+
+        Controller.fetchedProducts = new ArrayList<Product>(computers);
 
         return computers;
     }
