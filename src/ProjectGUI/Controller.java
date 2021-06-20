@@ -1,10 +1,7 @@
 package ProjectGUI;
 
 import ProjectGUI.Models.Constants;
-import ProjectGUI.Models.JavaFX.BrandFX;
-import ProjectGUI.Models.JavaFX.ProductFX;
-import ProjectGUI.Models.JavaFX.ScreenResolutionFX;
-import ProjectGUI.Models.JavaFX.ScreenSizeFX;
+import ProjectGUI.Models.JavaFX.*;
 import ProjectGUI.Models.Range;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,9 +33,9 @@ public class Controller {
     @FXML
     public TextField textFieldStorageCapacityMax;
     @FXML
-    public TableView tableViewProcessor;
+    public TableView<ProcessorFX> tableViewProcessor;
     @FXML
-    public TableColumn columnProcessor;
+    public TableColumn<ProcessorFX, String> columnProcessor;
     @FXML
     public TableView<ScreenResolutionFX> tableViewScreenResolution;
     @FXML
@@ -112,6 +109,7 @@ public class Controller {
             case Constants.COMPUTER:
                 tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
                 tableViewScreenResolution.setItems(getAllScreenResolutionsForComputersFX());
+                tableViewProcessor.setItems(getAllProcessorsForComputersFX());
                 break;
             case Constants.PHONE:
                 tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
@@ -129,6 +127,7 @@ public class Controller {
         columnBrands.setCellValueFactory(new PropertyValueFactory("brandName"));
         columnScreenSize.setCellValueFactory(new PropertyValueFactory("screenSize"));
         columnScreenResolution.setCellValueFactory(new PropertyValueFactory("screenResolution"));
+        columnProcessor.setCellValueFactory(new PropertyValueFactory("processor"));
     }
 
     public void getProductsPressed(ActionEvent event) {
@@ -141,7 +140,7 @@ public class Controller {
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
                         new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax)),
                         tableViewScreenResolution.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenResolution.getSelectionModel().getSelectedItem().getScreenResolution(),
-                        null,
+                        tableViewProcessor.getSelectionModel().getSelectedItem() == null ? null : tableViewProcessor.getSelectionModel().getSelectedItem().getProcessor(),
                         new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax)),
                         null)));
                 break;

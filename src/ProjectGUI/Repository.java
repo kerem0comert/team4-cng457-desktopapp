@@ -130,6 +130,24 @@ public final class Repository {
 
     }
 
+    public static ObservableList<ProcessorFX> getAllProcessorsForComputersFX() {
+        ObservableList<ProcessorFX> ProcessorFXList = FXCollections.observableArrayList();
+
+        StringBuilder url = appendBaseFields(Constants.GET_ALL_PROCESSORS_FOR_COMPUTERS, null, null, null, null);
+
+        JSONArray jsonArray = GetResponseAsJSON(url.toString());
+
+        for (Object obj : jsonArray) {
+            String ProcessorJSON = ((String) obj);
+            ProcessorFX newProcessorFX = new ProcessorFX();
+            newProcessorFX.setProcessor(ProcessorJSON);
+            ProcessorFXList.add(newProcessorFX);
+        }
+
+        return ProcessorFXList;
+
+    }
+
     public static ObservableList<ScreenSizeFX> getAllScreenSizesForPhonesFX() {
         ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
 
