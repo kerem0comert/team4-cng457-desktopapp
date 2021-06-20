@@ -20,22 +20,22 @@
             </columns>
         </TableView>
 
-        <Label layoutX="15.0" layoutY="300.0" text="Price" />
-        <TextField fx:id="textFieldPriceMin" layoutX="14.0" layoutY="320.0" prefHeight="25.0" prefWidth="64.0" />
-        <Label fx:id="labelPriceDash" layoutX="87.0" layoutY="320.0" text="-" />
-        <TextField fx:id="textFieldPriceMax" layoutX="100.0" layoutY="320.0" prefHeight="25.0" prefWidth="64.0" />
+        <Label layoutX="17.0" layoutY="168.0" text="Price" />
+        <TextField fx:id="textFieldPriceMin" layoutX="16.0" layoutY="188.0" prefHeight="25.0" prefWidth="64.0" />
+        <Label fx:id="labelPriceDash" layoutX="89.0" layoutY="188.0" text="-" />
+        <TextField fx:id="textFieldPriceMax" layoutX="102.0" layoutY="188.0" prefHeight="25.0" prefWidth="64.0" />
 
-        <Label layoutX="15.0" layoutY="365.0" text="Battery Life" />
-        <TextField fx:id="textFieldBatteryLifeMin" layoutX="14.0" layoutY="385.0" prefHeight="25.0" prefWidth="64.0" />
-        <Label fx:id="labelBatteryLifeDash" layoutX="87.0" layoutY="385.0" text="-" />
-        <TextField fx:id="textFieldBatteryLifeMax" layoutX="100.0" layoutY="385.0" prefHeight="25.0" prefWidth="64.0" />
+        <Label layoutX="17.0" layoutY="233.0" text="Battery Life" />
+        <TextField fx:id="textFieldBatteryLifeMin" layoutX="16.0" layoutY="253.0" prefHeight="25.0" prefWidth="64.0" />
+        <Label fx:id="labelBatteryLifeDash" layoutX="89.0" layoutY="253.0" text="-" />
+        <TextField fx:id="textFieldBatteryLifeMax" layoutX="102.0" layoutY="253.0" prefHeight="25.0" prefWidth="64.0" />
 
-        <TableView fx:id="tableViewScreenSize" layoutX="14.0" layoutY="430.0" prefHeight="100.0" prefWidth="145.0">
+        <TableView fx:id="tableViewScreenSize" layoutX="16.0" layoutY="298.0" prefHeight="100.0" prefWidth="145.0">
             <columns>
                 <TableColumn fx:id="columnScreenSize" prefWidth="145.0" text="Screen Size" />
             </columns>
         </TableView>
-        <Pane fx:id="paneFilterPhone" layoutY="530.0" prefHeight="139.0" prefWidth="200.0">
+        <Pane fx:id="paneFilterPhone" layoutX="2.0" layoutY="398.0" prefHeight="139.0" prefWidth="200.0">
             <children> <!--Phone -->
                 <Label layoutX="15.0" layoutY="5.0" text="Internal Memory" />
                 <TextField fx:id="textFieldInternalMemoryMin" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
@@ -43,7 +43,7 @@
                 <TextField fx:id="textFieldInternalMemoryMax" layoutX="100.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
             </children>
         </Pane>
-        <Pane fx:id="paneFilterComputer" layoutY="530.0" prefHeight="139.0" prefWidth="200.0">
+        <Pane fx:id="paneFilterComputer" layoutX="2.0" layoutY="398.0" prefHeight="139.0" prefWidth="200.0">
             <children> <!--Computer -->
                 <Label layoutX="15.0" layoutY="5.0" text="Memory" />
                 <TextField fx:id="textFieldMemoryMin" layoutX="14.0" layoutY="25.0" prefHeight="25.0" prefWidth="64.0" />
