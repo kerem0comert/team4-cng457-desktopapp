@@ -113,10 +113,14 @@ public class Controller {
     }
 
     public void getProductsPressed(ActionEvent event) {
-        ObservableList<PhoneFX> test = getPhonesFX(null, null, null, null, null, null);
-        ObservableList<ProductFX> test2 = FXCollections.observableArrayList(test);
-
-        tableViewProducts.setItems(test2);
+        switch (selectedFilter) {
+            case Constants.COMPUTER:
+                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(null, null, null, null, null)));
+                break;
+            case Constants.PHONE:
+                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(null, null, null, null, null)));
+                break;
+        }
 
     }
 

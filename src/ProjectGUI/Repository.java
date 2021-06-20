@@ -51,10 +51,9 @@ public final class Repository {
     }
 
     //These are the fields of the parent ProductFX, that is shared by both phone and computer
-    private static StringBuilder appendBaseFields(String type, String model, String brand, Range batteryLife, String screenSize,
+    private static StringBuilder appendBaseFields(String type, String brand, Range batteryLife, String screenSize,
                                                   Range priceRange) {
         StringBuilder url = new StringBuilder(Constants.BASE_URL + type);
-        url.append(appendNonNull(Constants.MODEL, model));
         url.append(appendNonNull(Constants.BRAND, brand));
         url.append(appendNonNull(Constants.MIN_BATTERY_LIFE, batteryLife == null ? null : batteryLife.getMin()));
         url.append(appendNonNull(Constants.MAX_BATTERY_LIFE, batteryLife == null ? null : batteryLife.getMax()));
@@ -64,10 +63,10 @@ public final class Repository {
         return url;
     }
 
-    public static void getComputers(String model, String brand, Range batteryLife, String screenSize,
+    public static void getComputers(String brand, Range batteryLife, String screenSize,
                                     Range priceRange, String screenResolution, String processor, Range memory,
                                     Range storageCapacity) {
-        StringBuilder url = appendBaseFields(Constants.GET_COMPUTER, model, brand, batteryLife, screenSize, priceRange);
+        StringBuilder url = appendBaseFields(Constants.GET_COMPUTER,brand, batteryLife, screenSize, priceRange);
         url.append(appendNonNull(Constants.SCREEN_RESOLUTION, screenResolution));
         url.append(appendNonNull(Constants.PROCESSOR, processor));
         url.append(appendNonNull(Constants.MIN_MEMORY, memory.getMin()));
@@ -93,9 +92,9 @@ public final class Repository {
         return prod;
     }
 
-    public static ArrayList<Phone> getPhonesAsModel(String model, String brand, Range batteryLife, String screenSize,
+    public static ArrayList<Phone> getPhonesAsModel(String brand, Range batteryLife, String screenSize,
                                                     Range priceRange, Range internalMemory) {
-        StringBuilder url = appendBaseFields(Constants.GET_PHONE, model, brand, batteryLife, screenSize, priceRange);
+        StringBuilder url = appendBaseFields(Constants.GET_PHONE, brand, batteryLife, screenSize, priceRange);
         url.append(appendNonNull(Constants.MIN_INTERNAL_MEMORY, internalMemory == null ? null : internalMemory.getMin()));
         url.append(appendNonNull(Constants.MAX_INTERNAL_MEMORY, internalMemory == null ? null : internalMemory.getMax()));
 
@@ -113,11 +112,11 @@ public final class Repository {
         return phones;
     }
 
-    public static ObservableList<PhoneFX> getPhonesFX(String model, String brand, Range batteryLife, String screenSize,
+    public static ObservableList<PhoneFX> getPhonesFX(String brand, Range batteryLife, String screenSize,
                                                       Range priceRange, Range internalMemory) {
         ObservableList<PhoneFX> phonesFX = FXCollections.observableArrayList();
 
-        ArrayList<Phone> phones = getPhonesAsModel(model, brand, batteryLife, screenSize, priceRange, internalMemory);
+        ArrayList<Phone> phones = getPhonesAsModel(brand, batteryLife, screenSize, priceRange, internalMemory);
 
         for (Phone phone : phones) {
             PhoneFX newPhoneFX = new PhoneFX();
