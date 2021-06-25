@@ -9,18 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ProjectGUI.Repository.*;
-
 public class Controller {
+    public static List<Product> fetchedProducts = null;
     @FXML
     public TableColumn columnModels;
     @FXML
@@ -57,6 +54,12 @@ public class Controller {
     public TableView<ProductInformationFX> tableViewFeatures;
     @FXML
     public TableColumn<ProductInformationFX, String> columnProduct3;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct1Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct2Review;
+    @FXML
+    public TableColumn<ReviewFX, String> columnProduct3Review;
     private String selectedFilter;
     //region Filters
     @FXML
@@ -81,6 +84,7 @@ public class Controller {
     private TextField textFieldMemoryMin;
     @FXML
     private TextField textFieldMemoryMax;
+    //endregion
     @FXML
     private TableView tableViewModel;
     //endregion
@@ -91,37 +95,21 @@ public class Controller {
     private Button buttonSortByPrice;
     @FXML
     private Button buttonCompare;
-    //endregion
-
     //region ProductFX
     @FXML
     private TableView<ProductFX> tableViewProducts;
-
     @FXML
     private TableColumn<ProductFX, String> columnName;
-
     @FXML
     private TableView<ReviewFX> tableViewReviews;
-
-    @FXML
-    public TableColumn<ReviewFX, String> columnProduct1Review;
-    @FXML
-    public TableColumn<ReviewFX, String> columnProduct2Review;
-    @FXML
-    public TableColumn<ReviewFX, String> columnProduct3Review;
-
-
+    //endregion
     @FXML
     private TableColumn<ProductFX, Integer> columnPrice;
-    //endregion
-
     private Stage stage;
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    public static List<Product> fetchedProducts = null;
 
     @FXML
     public void initialize() {
@@ -133,17 +121,16 @@ public class Controller {
 
     }
 
-    private void fillFilters()
-    {
-        tableViewBrand.setItems(getAllBrandsFX());
+    private void fillFilters() {
+        tableViewBrand.setItems(Repository.getInstance().getAllBrandsFX());
         switch (selectedFilter) {
             case Constants.COMPUTER:
-                tableViewScreenSize.setItems(getAllScreenSizesForComputersFX());
-                tableViewScreenResolution.setItems(getAllScreenResolutionsForComputersFX());
-                tableViewProcessor.setItems(getAllProcessorsForComputersFX());
+                tableViewScreenSize.setItems(Repository.getInstance().getAllScreenSizesForComputersFX());
+                tableViewScreenResolution.setItems(Repository.getInstance().getAllScreenResolutionsForComputersFX());
+                tableViewProcessor.setItems(Repository.getInstance().getAllProcessorsForComputersFX());
                 break;
             case Constants.PHONE:
-                tableViewScreenSize.setItems(getAllScreenSizesForPhonesFX());
+                tableViewScreenSize.setItems(Repository.getInstance().getAllScreenSizesForPhonesFX());
                 break;
         }
         tableViewFeatures.setItems(FXCollections.observableArrayList());
@@ -183,7 +170,7 @@ public class Controller {
             TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty) ;
+                    super.updateItem(item, empty);
                     setText(empty ? null : item);
                 }
             };
@@ -193,19 +180,19 @@ public class Controller {
 
                     if (cell.getText() == "" || cell.getText() == null) {
 
-                    } else{
+                    } else {
                         openDialog(1);
                     }
                 }
             });
-            return cell ;
+            return cell;
         });
 
         columnProduct2Review.setCellFactory(tc -> {
             TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty) ;
+                    super.updateItem(item, empty);
                     setText(empty ? null : item);
                 }
             };
@@ -215,19 +202,19 @@ public class Controller {
 
                     if (cell.getText() == "" || cell.getText() == null) {
 
-                    } else{
+                    } else {
                         openDialog(2);
                     }
                 }
             });
-            return cell ;
+            return cell;
         });
 
         columnProduct3Review.setCellFactory(tc -> {
             TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty) ;
+                    super.updateItem(item, empty);
                     setText(empty ? null : item);
                 }
             };
@@ -237,12 +224,12 @@ public class Controller {
 
                     if (cell.getText() == "" || cell.getText() == null) {
 
-                    } else{
+                    } else {
                         openDialog(3);
                     }
                 }
             });
-            return cell ;
+            return cell;
         });
 
     }
@@ -255,29 +242,28 @@ public class Controller {
         if (tableViewReviews.getSelectionModel().getSelectedItem() == null)
             return;
 
-       ReviewFX selectedReview = tableViewReviews.getSelectionModel().getSelectedItem();
+        ReviewFX selectedReview = tableViewReviews.getSelectionModel().getSelectedItem();
 
-       if(column == 1)
-           a.setContentText(selectedReview.getDescription1());
+        if (column == 1)
+            a.setContentText(selectedReview.getDescription1());
 
-       else if(column == 2)
-           a.setContentText(selectedReview.getDescription2());
+        else if (column == 2)
+            a.setContentText(selectedReview.getDescription2());
 
-       else
-           a.setContentText(selectedReview.getDescription3());
+        else
+            a.setContentText(selectedReview.getDescription3());
 
         a.show();
     }
 
-    public void selectedProductChanged(InputEvent event)
-    {
+
+    public void selectedProductChanged(InputEvent event) {
         if (tableViewProducts.getSelectionModel().getSelectedItems().isEmpty())
             return;
 
         ObservableList<ProductFX> selectedItems = tableViewProducts.getSelectionModel().getSelectedItems();
 
-        if (selectedItems.size() > 1)
-        {
+        if (selectedItems.size() > 1) {
             ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
             ProductInformationFX newInformationFX;
 
@@ -300,20 +286,18 @@ public class Controller {
         ProductInformationFX newInformationFX;
         ReviewFX newReviewFX;
 
-        if (selectedProduct.getReviewList() != null || !selectedProduct.getReviewList().isEmpty())
-        {
+        if (selectedProduct.getReviewList() != null || !selectedProduct.getReviewList().isEmpty()) {
             ArrayList<Review> reviews = selectedProduct.getReviewList();
 
-            for (Review review: reviews)
-            {
+            for (Review review : reviews) {
                 newReviewFX = new ReviewFX();
                 String rating = "";
 
-                for(int i=0;i<review.getRating();i++){
+                for (int i = 0; i < review.getRating(); i++) {
                     rating += "★";
                 }
 
-                for(int i=0;i<5-review.getRating();i++){
+                for (int i = 0; i < 5 - review.getRating(); i++) {
                     rating += "☆";
                 }
 
@@ -353,39 +337,38 @@ public class Controller {
             case Constants.COMPUTER:
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Screen Resolution");
-                newInformationFX.setFeature1(((Computer)selectedProduct).getScreenResolution());
+                newInformationFX.setFeature1(((Computer) selectedProduct).getScreenResolution());
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Processor");
-                newInformationFX.setFeature1(((Computer)selectedProduct).getProcessor());
+                newInformationFX.setFeature1(((Computer) selectedProduct).getProcessor());
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Memory");
-                newInformationFX.setFeature1(((Computer)selectedProduct).getMemory().toString());
+                newInformationFX.setFeature1(((Computer) selectedProduct).getMemory().toString());
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Storage Capacity");
-                newInformationFX.setFeature1(((Computer)selectedProduct).getStorageCapacity().toString());
+                newInformationFX.setFeature1(((Computer) selectedProduct).getStorageCapacity().toString());
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
                 break;
             case Constants.PHONE:
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Internal Memory");
-                newInformationFX.setFeature1(((Phone)selectedProduct).getInternalMemory().toString());
+                newInformationFX.setFeature1(((Phone) selectedProduct).getInternalMemory().toString());
                 newInformationFX.setFeature2("");
                 informationFXList.add(newInformationFX);
                 break;
         }
 
-        if (selectedProduct.getExtraFeaturesList() != null || !selectedProduct.getExtraFeaturesList().isEmpty())
-        {
+        if (selectedProduct.getExtraFeaturesList() != null || !selectedProduct.getExtraFeaturesList().isEmpty()) {
             ArrayList<ExtraFeature> extraFeatures = selectedProduct.getExtraFeaturesList();
 
             newInformationFX = new ProductInformationFX();
@@ -400,8 +383,7 @@ public class Controller {
             newInformationFX.setFeature2("");
             informationFXList.add(newInformationFX);
 
-            for (ExtraFeature extraFeature: extraFeatures)
-            {
+            for (ExtraFeature extraFeature : extraFeatures) {
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("");
                 newInformationFX.setFeature1(extraFeature.getFeatureName());
@@ -412,8 +394,7 @@ public class Controller {
         tableViewFeatures.setItems(informationFXList);
     }
 
-    public void comparePressed(ActionEvent event)
-    {
+    public void comparePressed(ActionEvent event) {
         ObservableList<ProductFX> selectedItems = tableViewProducts.getSelectionModel().getSelectedItems();
 
         if (selectedItems.size() <= 1)
@@ -421,8 +402,7 @@ public class Controller {
 
         ArrayList<Product> selectedProducts = new ArrayList<Product>();
 
-        for (ProductFX productFX: selectedItems)
-        {
+        for (ProductFX productFX : selectedItems) {
             selectedProducts.add(fetchedProducts.stream()
                     .filter(x -> x.getProductId().intValue() == productFX.getProductId())
                     .collect(Collectors.toList()).get(0));
@@ -469,45 +449,45 @@ public class Controller {
             case Constants.COMPUTER:
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Screen Resolution");
-                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getScreenResolution());
-                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getScreenResolution());
+                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getScreenResolution());
+                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getScreenResolution());
                 if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getScreenResolution());
+                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getScreenResolution());
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Processor");
-                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getProcessor());
-                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getProcessor());
+                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getProcessor());
+                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getProcessor());
                 if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getProcessor());
+                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getProcessor());
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Memory");
-                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getMemory().toString());
-                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getMemory().toString());
+                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getMemory().toString());
+                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getMemory().toString());
                 if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getMemory().toString());
+                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getMemory().toString());
 
                 informationFXList.add(newInformationFX);
 
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Storage Capacity");
-                newInformationFX.setFeature1(((Computer)selectedProducts.get(0)).getStorageCapacity().toString());
-                newInformationFX.setFeature2(((Computer)selectedProducts.get(1)).getStorageCapacity().toString());
+                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getStorageCapacity().toString());
+                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getStorageCapacity().toString());
                 if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer)selectedProducts.get(2)).getStorageCapacity().toString());
+                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getStorageCapacity().toString());
 
                 informationFXList.add(newInformationFX);
                 break;
             case Constants.PHONE:
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("Internal Memory");
-                newInformationFX.setFeature1(((Phone)selectedProducts.get(0)).getInternalMemory().toString());
-                newInformationFX.setFeature2(((Phone)selectedProducts.get(1)).getInternalMemory().toString());
+                newInformationFX.setFeature1(((Phone) selectedProducts.get(0)).getInternalMemory().toString());
+                newInformationFX.setFeature2(((Phone) selectedProducts.get(1)).getInternalMemory().toString());
                 if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Phone)selectedProducts.get(2)).getInternalMemory().toString());
+                    newInformationFX.setFeature3(((Phone) selectedProducts.get(2)).getInternalMemory().toString());
                 informationFXList.add(newInformationFX);
                 break;
         }
@@ -522,12 +502,10 @@ public class Controller {
 
         int extraFeaturesListIndex = informationFXList.size() - 1;
 
-        if (selectedProducts.get(0).getExtraFeaturesList() != null || !selectedProducts.get(0).getExtraFeaturesList().isEmpty())
-        {
+        if (selectedProducts.get(0).getExtraFeaturesList() != null || !selectedProducts.get(0).getExtraFeaturesList().isEmpty()) {
             ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(0).getExtraFeaturesList();
 
-            for (ExtraFeature extraFeature: extraFeatures)
-            {
+            for (ExtraFeature extraFeature : extraFeatures) {
                 newInformationFX = new ProductInformationFX();
                 newInformationFX.setFeatureName("");
                 newInformationFX.setFeature1(extraFeature.getFeatureName());
@@ -535,22 +513,17 @@ public class Controller {
             }
         }
 
-        if (selectedProducts.get(1).getExtraFeaturesList() != null || !selectedProducts.get(1).getExtraFeaturesList().isEmpty())
-        {
+        if (selectedProducts.get(1).getExtraFeaturesList() != null || !selectedProducts.get(1).getExtraFeaturesList().isEmpty()) {
             ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(1).getExtraFeaturesList();
 
             int i = extraFeaturesListIndex;
 
-            for (ExtraFeature extraFeature: extraFeatures)
-            {
+            for (ExtraFeature extraFeature : extraFeatures) {
                 i++;
-                if (informationFXList.size() >= i + 1)
-                {
+                if (informationFXList.size() >= i + 1) {
                     newInformationFX = informationFXList.get(i);
                     newInformationFX.setFeature2(extraFeature.getFeatureName());
-                }
-                else
-                {
+                } else {
                     newInformationFX = new ProductInformationFX();
                     newInformationFX.setFeatureName("");
                     newInformationFX.setFeature2(extraFeature.getFeatureName());
@@ -559,24 +532,18 @@ public class Controller {
             }
         }
 
-        if (selectedProducts.size() > 2)
-        {
-            if (selectedProducts.get(2).getExtraFeaturesList() != null || !selectedProducts.get(2).getExtraFeaturesList().isEmpty())
-            {
+        if (selectedProducts.size() > 2) {
+            if (selectedProducts.get(2).getExtraFeaturesList() != null || !selectedProducts.get(2).getExtraFeaturesList().isEmpty()) {
                 ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(2).getExtraFeaturesList();
 
                 int i = extraFeaturesListIndex;
 
-                for (ExtraFeature extraFeature: extraFeatures)
-                {
+                for (ExtraFeature extraFeature : extraFeatures) {
                     i++;
-                    if (informationFXList.size() >= i + 1)
-                    {
+                    if (informationFXList.size() >= i + 1) {
                         newInformationFX = informationFXList.get(i);
                         newInformationFX.setFeature3(extraFeature.getFeatureName());
-                    }
-                    else
-                    {
+                    } else {
                         newInformationFX = new ProductInformationFX();
                         newInformationFX.setFeatureName("");
                         newInformationFX.setFeature3(extraFeature.getFeatureName());
@@ -589,20 +556,18 @@ public class Controller {
         ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
         ReviewFX newReviewFX;
 
-        if (selectedProducts.get(0).getReviewList() != null && !selectedProducts.get(0).getReviewList().isEmpty())
-        {
+        if (selectedProducts.get(0).getReviewList() != null && !selectedProducts.get(0).getReviewList().isEmpty()) {
             ArrayList<Review> reviews = selectedProducts.get(0).getReviewList();
 
-            for (Review review: reviews)
-            {
+            for (Review review : reviews) {
                 newReviewFX = new ReviewFX();
                 String rating = "";
 
-                for(int i=0;i<review.getRating();i++){
+                for (int i = 0; i < review.getRating(); i++) {
                     rating += "★";
                 }
 
-                for(int i=0;i<5-review.getRating();i++){
+                for (int i = 0; i < 5 - review.getRating(); i++) {
                     rating += "☆";
                 }
 
@@ -612,27 +577,23 @@ public class Controller {
             }
         }
 
-        if (selectedProducts.size() > 1)
-        {
+        if (selectedProducts.size() > 1) {
             int i = 0;
 
-            if (selectedProducts.get(1).getReviewList() != null && !selectedProducts.get(1).getReviewList().isEmpty())
-            {
+            if (selectedProducts.get(1).getReviewList() != null && !selectedProducts.get(1).getReviewList().isEmpty()) {
                 ArrayList<Review> reviews = selectedProducts.get(1).getReviewList();
 
-                for (Review review: reviews)
-                {
+                for (Review review : reviews) {
 
-                    if (ReviewFXList.size() >= i)
-                    {
+                    if (ReviewFXList.size() >= i) {
                         newReviewFX = ReviewFXList.get(i);
                         String rating = "";
 
-                        for(int j=0;j<review.getRating();j++){
+                        for (int j = 0; j < review.getRating(); j++) {
                             rating += "★";
                         }
 
-                        for(int j=0;j<5-review.getRating();j++){
+                        for (int j = 0; j < 5 - review.getRating(); j++) {
                             rating += "☆";
                         }
 
@@ -640,17 +601,15 @@ public class Controller {
 
 
                         newReviewFX.setDescription2(review.getComment());
-                    }
-                    else
-                    {
+                    } else {
                         newReviewFX = new ReviewFX();
                         String rating = "";
 
-                        for(int j=0;j<review.getRating();j++){
+                        for (int j = 0; j < review.getRating(); j++) {
                             rating += "★";
                         }
 
-                        for(int j=0;j<5-review.getRating();j++){
+                        for (int j = 0; j < 5 - review.getRating(); j++) {
                             rating += "☆";
                         }
 
@@ -665,27 +624,23 @@ public class Controller {
 
         }
 
-        if (selectedProducts.size() > 2)
-        {
+        if (selectedProducts.size() > 2) {
             int i = 0;
 
-            if (selectedProducts.get(2).getReviewList() != null && !selectedProducts.get(2).getReviewList().isEmpty())
-            {
+            if (selectedProducts.get(2).getReviewList() != null && !selectedProducts.get(2).getReviewList().isEmpty()) {
                 ArrayList<Review> reviews = selectedProducts.get(2).getReviewList();
 
-                for (Review review: reviews)
-                {
+                for (Review review : reviews) {
 
-                    if (ReviewFXList.size() >= i)
-                    {
+                    if (ReviewFXList.size() >= i) {
                         newReviewFX = ReviewFXList.get(i);
                         String rating = "";
 
-                        for(int j=0;j<review.getRating();j++){
+                        for (int j = 0; j < review.getRating(); j++) {
                             rating += "★";
                         }
 
-                        for(int j=0;j<5-review.getRating();j++){
+                        for (int j = 0; j < 5 - review.getRating(); j++) {
                             rating += "☆";
                         }
 
@@ -693,17 +648,15 @@ public class Controller {
 
 
                         newReviewFX.setDescription3(review.getComment());
-                    }
-                    else
-                    {
+                    } else {
                         newReviewFX = new ReviewFX();
                         String rating = "";
 
-                        for(int j=0;j<review.getRating();j++){
+                        for (int j = 0; j < review.getRating(); j++) {
                             rating += "★";
                         }
 
-                        for(int j=0;j<5-review.getRating();j++){
+                        for (int j = 0; j < 5 - review.getRating(); j++) {
                             rating += "☆";
                         }
 
@@ -726,7 +679,7 @@ public class Controller {
         Range priceRange = new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax));
         switch (selectedFilter) {
             case Constants.COMPUTER:
-                tableViewProducts.setItems(FXCollections.observableArrayList(getComputersFX(
+                tableViewProducts.setItems(FXCollections.observableArrayList(Repository.getInstance().getComputersFX(
                         tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
                         new Range(getValue(textFieldBatteryLifeMin), getValue(textFieldBatteryLifeMax)),
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
@@ -734,10 +687,10 @@ public class Controller {
                         tableViewScreenResolution.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenResolution.getSelectionModel().getSelectedItem().getScreenResolution(),
                         tableViewProcessor.getSelectionModel().getSelectedItem() == null ? null : tableViewProcessor.getSelectionModel().getSelectedItem().getProcessor(),
                         new Range(getValue(textFieldMemoryMin), getValue(textFieldMemoryMax)),
-                        new Range(getValue(textFieldStorageCapacityMin),getValue(textFieldStorageCapacityMax)))));
+                        new Range(getValue(textFieldStorageCapacityMin), getValue(textFieldStorageCapacityMax)))));
                 break;
             case Constants.PHONE:
-                tableViewProducts.setItems(FXCollections.observableArrayList(getPhonesFX(
+                tableViewProducts.setItems(FXCollections.observableArrayList(Repository.getInstance().getPhonesFX(
                         tableViewBrand.getSelectionModel().getSelectedItem() == null ? null : tableViewBrand.getSelectionModel().getSelectedItem().getBrandName(),
                         new Range(getValue(textFieldBatteryLifeMin), getValue(textFieldBatteryLifeMax)),
                         tableViewScreenSize.getSelectionModel().getSelectedItem() == null ? null : tableViewScreenSize.getSelectionModel().getSelectedItem().getScreenSize(),
@@ -750,7 +703,7 @@ public class Controller {
 
     public void sortByPriceAction(ActionEvent event) {
 
-        if(columnPrice.getSortType()==TableColumn.SortType.DESCENDING)
+        if (columnPrice.getSortType() == TableColumn.SortType.DESCENDING)
             columnPrice.setSortType(TableColumn.SortType.ASCENDING);
 
         else

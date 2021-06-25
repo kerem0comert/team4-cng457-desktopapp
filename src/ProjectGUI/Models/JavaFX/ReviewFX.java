@@ -53,7 +53,9 @@ public class ReviewFX {
         review3.set(newVal);
     }
 
-    public StringProperty review3Property() { return review3; }
+    public StringProperty review3Property() {
+        return review3;
+    }
 
     //////////////
 

@@ -20,6 +20,7 @@ public class Constants {
     public static final String SCREEN_SIZE = "screenSize";
     public static final String MIN_BATTERY_LIFE = "minBatteryLife";
     public static final String MAX_BATTERY_LIFE = "maxBatteryLife";
+    public static final String BATTERY_LIFE = "batteryLife";
     public static final String MIN_MEMORY = "minMemory";
     public static final String MAX_MEMORY = "maxMemory";
     public static final String SCREEN_RESOLUTION = "screenResolution";
@@ -28,6 +29,17 @@ public class Constants {
     public static final String MAX_STORAGE_CAPACITY = "maxStorageCapacity";
     public static final String MIN_INTERNAL_MEMORY = "minInternalMemory";
     public static final String MAX_INTERNAL_MEMORY = "maxInternalMemory";
+    public static final String PRICE = "price";
+    public static final String BRAND_NAME = "brandName";
+    public static final String PRODUCT_ID = "productId";
+    public static final String EXTRA_FEATURES_LIST = "extraFeaturesList";
+    public static final String FEATURE_NAME = "featureName";
+    public static final String MEMORY = "memory";
+    public static final String STORAGE_CAPACITY = "storageCapacity";
+    public static final String INTERNAL_MEMORY = "internalMemory";
+    public static final String COMMENT = "comment";
+    public static final String DESCRIPTION = "description";
+    public static final String RATING = "rating";
     //endregion
 
     public static final String FXML = "GUI.fxml";
