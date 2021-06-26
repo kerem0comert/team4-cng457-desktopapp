@@ -274,6 +274,17 @@ public class Controller {
             newInformationFX.setFeature2("");
             informationFXList.add(newInformationFX);
             tableViewFeatures.setItems(informationFXList);
+
+            ObservableList<ReviewFX> reviewFxList = FXCollections.observableArrayList();
+            ReviewFX newReviewFX;
+
+            newReviewFX = new ReviewFX();
+            newReviewFX.setReview1("Press");
+            newReviewFX.setReview2("Compare");
+            newReviewFX.setReview3("");
+            reviewFxList.add(newReviewFX);
+            tableViewReviews.setItems(reviewFxList);
+
             return;
         }
 
