@@ -14,12 +14,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The class that handles communication with back-end.
+ */
 public final class Repository {
     private static Repository instance;
 
+    /**
+     * The constructor is private, as the Singleton Pattern is implemented here.
+     */
     private Repository() {
     }
 
+    /**
+     *
+     * @return The singleton repository instance.
+     */
     public static Repository getInstance() {
         if (instance == null) {
             instance = new Repository();
@@ -27,7 +37,12 @@ public final class Repository {
         return instance;
     }
 
-
+    /**
+     * This method opens the necessary HTTPConnection with the back-end server and returns the response in form of
+     * a JSONArray.
+     * @param mainURL is the URL to which the HTTP response will be sent.
+     * @return The JSONArray, containing the HTTP response.
+     */
     private JSONArray getResponseAsJSON(String mainURL) {
         try {
             String response = "";
@@ -51,16 +66,30 @@ public final class Repository {
         }
     }
 
-    /**
-     * This should ideally be done with solutions like UriComponentsBuilder, but the library just could not be
-     * compiled after more an hour of trying. In order to keep my sanity, I went with the ugly implementation.
-     */
 
+    /**
+     * Append arguments one by one to the base URL to build the query, pass if the field is not specified by the user.
+     * This should ideally be done with solutions like UriComponentsBuilder, but the library just could not be
+     * compiled after more an hour of trying. In order to keep my sanity, I went with the ugly implementation
+     * @param fieldName The fieldName specified in the query
+     * @param o is any value of type object, which is included in the query.
+     * @return fieldName=o& or empty string.
+     */
     private String appendNonNull(String fieldName, Object o) {
         return o == null ? "" : fieldName + "=" + o + "&";
     }
 
-    //These are the fields of the parent ProductFX, that is shared by both phone and computer
+
+    /**
+     * These are the fields of the parent ProductFX, that is shared by both phone and computer.
+     * They can be present in both types of queries.
+     * @param type The path to which the query is made. This will decide which table/tables will be used in back-end.
+     * @param brand The requested brand as String.
+     * @param batteryLife of type Range, which includes min and max values.
+     * @param screenSize of type Range, which includes min and max values.
+     * @param priceRange of type Range, which includes min and max values.
+     * @return the URL dynamically built with the query parameters.
+     */
     private StringBuilder appendBaseFields(String type, String brand, Range batteryLife, String screenSize,
                                            Range priceRange) {
         StringBuilder url = new StringBuilder(Constants.BASE_URL + type);

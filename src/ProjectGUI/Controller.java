@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Accepts input and converts it to commands for the model or view. Also calls the necessary Repository methods
+ * for talking with back-end. It is the "C" in our "MVC" architecture.
+ */
 public class Controller {
     public static List<Product> fetchedProducts = null;
     @FXML
@@ -111,16 +115,23 @@ public class Controller {
         this.stage = stage;
     }
 
+    /**
+     * The main entry point for creating the controller logic of the XML elements.
+     */
     @FXML
     public void initialize() {
-        initTable();
+        initComparisonCols();
+        initReviewCols();
         initTextFields();
         initToggleGroupListener();
         //initGetProductsListener();
         fillFilters();
-
     }
 
+    /**
+     * Once the app is started, the filters should show the possible operations that can be performed, depending
+     * on what data is returned from the back-end. The tableViews are filled as such.
+     */
     private void fillFilters() {
         tableViewBrand.setItems(Repository.getInstance().getAllBrandsFX());
         switch (selectedFilter) {
@@ -138,11 +149,11 @@ public class Controller {
         tableViewReviews.setItems(FXCollections.observableArrayList());
     }
 
-    private void initTable() {
-        initCols();
-    }
-
-    private void initCols() {
+    /**
+     * The columns that contain the necessary data that is used for comparison is initialized.
+     * The cell value factory needs to be set to specify how to populate cells within a single TableColumn.
+     */
+    private void initComparisonCols() {
         columnName.setCellValueFactory(new PropertyValueFactory("model"));
         columnPrice.setCellValueFactory(new PropertyValueFactory("price"));
         columnBrands.setCellValueFactory(new PropertyValueFactory("brandName"));
@@ -160,13 +171,13 @@ public class Controller {
         columnProduct1Review.setCellValueFactory(new PropertyValueFactory("review1"));
         columnProduct2Review.setCellValueFactory(new PropertyValueFactory("review2"));
         columnProduct3Review.setCellValueFactory(new PropertyValueFactory("review3"));
-
-        setCellFactories();
-
     }
 
-    private void setCellFactories() {   // For reviews table
-
+    /**
+     * The same operation as {@link #initComparisonCols()}. Crucial difference is with the mouse click, as a double
+     * click on any given cell results in a dialog pop-up, which displays the comment for that review.
+     */
+    private void initReviewCols() {
         columnProduct1Review.setCellFactory(tc -> {
             TableCell<ReviewFX, String> cell = new TableCell<ReviewFX, String>() {
                 @Override
@@ -235,6 +246,10 @@ public class Controller {
 
     }
 
+    /**
+     * Open an AlertDialog that displays the comment for a given cell.
+     * @param column is the index at which the click occurred. This should return any of the three description fields.
+     */
     private void openDialog(int column) {
 
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -257,7 +272,15 @@ public class Controller {
         a.show();
     }
 
-
+    /**
+     * Referenced by the table XML element via data-binding. Whenever an arrow key is pressed or the user selects
+     * another row, its data should be retrieved for display in the Comparison View. The columns change depending
+     * on the current filter being by phone or by computer. The product can also contain extraFeatures
+     * and they should also be retrieved accordingly. The reviews are also retrieved and the ASCII "★" char
+     * is appended for the existence of each point, and the "☆" for its non-existence, from a total of 5.
+     * @param event is the default argument to be provided by the framework when a method is called from XML via
+     * data-binding, but we needn't use it here.
+     */
     public void selectedProductChanged(InputEvent event) {
         if (tableViewProducts.getSelectionModel().getSelectedItems().isEmpty())
             return;
@@ -395,6 +418,13 @@ public class Controller {
         tableViewFeatures.setItems(informationFXList);
     }
 
+    /**
+     *The user can select up to three products to add to the comparison by pressing the "Compare" button, which
+     * triggers this method. The method gets the fields necessary, and gets extraFeatures if they exist for each of
+     * the items that are added to the comparison.
+     * @param event is the default argument to be provided by the framework when a method is called from XML via
+     *data-binding, but we needn't use it here.
+     */
     public void comparePressed(ActionEvent event) {
         ObservableList<ProductFX> selectedItems = tableViewProducts.getSelectionModel().getSelectedItems();
 
@@ -705,6 +735,10 @@ public class Controller {
 
     }
 
+    /**
+     *
+     * @param event
+     */
     public void sortByPriceAction(ActionEvent event) {
 
         if (columnPrice.getSortType() == TableColumn.SortType.DESCENDING)
@@ -718,7 +752,11 @@ public class Controller {
 
     }
 
-
+    /**
+     * Toggle group in the Filter view controls whether the computer or phone gets selected. In either case,
+     * the filter options must be made visible and invisible, depending on the selection. For example,
+     * the internal memory filter should not be shown if the user selected computer.
+     */
     private void initToggleGroupListener() {
         paneFilterPhone.setVisible(false); //Initially not visible as computer is pre-selected
         selectedFilter = Constants.COMPUTER;
@@ -740,6 +778,9 @@ public class Controller {
         });
     }
 
+    /**
+     * All text fields in filters must accept only numeric input.
+     */
     private void initTextFields() {
         Extensions.numberTextFieldify(textFieldMemoryMin);
         Extensions.numberTextFieldify(textFieldMemoryMax);
@@ -747,28 +788,18 @@ public class Controller {
         Extensions.numberTextFieldify(textFieldInternalMemoryMax);
     }
 
+    /**
+     * Since we can be sure that all text fields only accept numeric input, the value can safely be parsed into an
+     * integer. However, if the field is left empty, then an exception is thrown as the conversion is not successful.
+     * So we can assume that no filtering exists for that field when making a back-end request.
+     * @param textField whose value is being captured
+     * @return an Integer or null if the text field's value cannot be parsed into an integer.
+     */
     private Integer getValue(TextField textField) {
         try {
             return Integer.parseInt(textField.getText());
-        } catch (Exception e) {
-            return null; //If the text is empty, the casting would not succeed.
+        } catch (NumberFormatException e) {
+            return null;
         }
     }
-
-  /*  @FXML
-    public void clickItem(MouseEvent event)
-    {
-        if (event.getClickCount() == 2) //Checking double click
-        {
-
-            if(tableViewReviews.getSelectionModel().getSelectedItem().getReview1() == ""){
-                System.out.println("Empty");
-            }
-            else
-                System.out.println("not empty");
-
-        }
-    }*/
-
-
 }
