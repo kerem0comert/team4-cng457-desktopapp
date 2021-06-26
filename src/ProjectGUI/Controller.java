@@ -420,133 +420,115 @@ public class Controller {
                     .collect(Collectors.toList()).get(0));
         }
 
-        ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
+        // Create new thread to fill information table
+        new Thread(() -> {
+            ObservableList<ProductInformationFX> informationFXList = FXCollections.observableArrayList();
 
-        ProductInformationFX newInformationFX;
+            ProductInformationFX newInformationFX;
 
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("Model");
-        newInformationFX.setFeature1(selectedProducts.get(0).getModel().split(" ")[1]);
-        newInformationFX.setFeature2(selectedProducts.get(1).getModel().split(" ")[1]);
-        if (selectedProducts.size() > 2)
-            newInformationFX.setFeature3(selectedProducts.get(2).getModel().split(" ")[1]);
-        informationFXList.add(newInformationFX);
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Model");
+            newInformationFX.setFeature1(selectedProducts.get(0).getModel().split(" ")[1]);
+            newInformationFX.setFeature2(selectedProducts.get(1).getModel().split(" ")[1]);
+            if (selectedProducts.size() > 2)
+                newInformationFX.setFeature3(selectedProducts.get(2).getModel().split(" ")[1]);
+            informationFXList.add(newInformationFX);
 
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("Price");
-        newInformationFX.setFeature1(selectedProducts.get(0).getPrice().toString());
-        newInformationFX.setFeature2(selectedProducts.get(1).getPrice().toString());
-        if (selectedProducts.size() > 2)
-            newInformationFX.setFeature3(selectedProducts.get(2).getPrice().toString());
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Price");
+            newInformationFX.setFeature1(selectedProducts.get(0).getPrice().toString());
+            newInformationFX.setFeature2(selectedProducts.get(1).getPrice().toString());
+            if (selectedProducts.size() > 2)
+                newInformationFX.setFeature3(selectedProducts.get(2).getPrice().toString());
 
-        informationFXList.add(newInformationFX);
+            informationFXList.add(newInformationFX);
 
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("Battery Life");
-        newInformationFX.setFeature1(selectedProducts.get(0).getBatteryLife().toString());
-        newInformationFX.setFeature2(selectedProducts.get(1).getBatteryLife().toString());
-        if (selectedProducts.size() > 2)
-            newInformationFX.setFeature3(selectedProducts.get(2).getBatteryLife().toString());
-        informationFXList.add(newInformationFX);
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Battery Life");
+            newInformationFX.setFeature1(selectedProducts.get(0).getBatteryLife().toString());
+            newInformationFX.setFeature2(selectedProducts.get(1).getBatteryLife().toString());
+            if (selectedProducts.size() > 2)
+                newInformationFX.setFeature3(selectedProducts.get(2).getBatteryLife().toString());
+            informationFXList.add(newInformationFX);
 
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("Screen Size");
-        newInformationFX.setFeature1(selectedProducts.get(0).getScreenSize());
-        newInformationFX.setFeature2(selectedProducts.get(1).getScreenSize());
-        if (selectedProducts.size() > 2)
-            newInformationFX.setFeature3(selectedProducts.get(2).getScreenSize());
-        informationFXList.add(newInformationFX);
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Screen Size");
+            newInformationFX.setFeature1(selectedProducts.get(0).getScreenSize());
+            newInformationFX.setFeature2(selectedProducts.get(1).getScreenSize());
+            if (selectedProducts.size() > 2)
+                newInformationFX.setFeature3(selectedProducts.get(2).getScreenSize());
+            informationFXList.add(newInformationFX);
 
-        switch (selectedFilter) {
-            case Constants.COMPUTER:
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("Screen Resolution");
-                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getScreenResolution());
-                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getScreenResolution());
-                if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getScreenResolution());
-                informationFXList.add(newInformationFX);
+            switch (selectedFilter) {
+                case Constants.COMPUTER:
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("Screen Resolution");
+                    newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getScreenResolution());
+                    newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getScreenResolution());
+                    if (selectedProducts.size() > 2)
+                        newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getScreenResolution());
+                    informationFXList.add(newInformationFX);
 
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("Processor");
-                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getProcessor());
-                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getProcessor());
-                if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getProcessor());
-                informationFXList.add(newInformationFX);
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("Processor");
+                    newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getProcessor());
+                    newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getProcessor());
+                    if (selectedProducts.size() > 2)
+                        newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getProcessor());
+                    informationFXList.add(newInformationFX);
 
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("Memory");
-                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getMemory().toString());
-                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getMemory().toString());
-                if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getMemory().toString());
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("Memory");
+                    newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getMemory().toString());
+                    newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getMemory().toString());
+                    if (selectedProducts.size() > 2)
+                        newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getMemory().toString());
 
-                informationFXList.add(newInformationFX);
+                    informationFXList.add(newInformationFX);
 
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("Storage Capacity");
-                newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getStorageCapacity().toString());
-                newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getStorageCapacity().toString());
-                if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getStorageCapacity().toString());
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("Storage Capacity");
+                    newInformationFX.setFeature1(((Computer) selectedProducts.get(0)).getStorageCapacity().toString());
+                    newInformationFX.setFeature2(((Computer) selectedProducts.get(1)).getStorageCapacity().toString());
+                    if (selectedProducts.size() > 2)
+                        newInformationFX.setFeature3(((Computer) selectedProducts.get(2)).getStorageCapacity().toString());
 
-                informationFXList.add(newInformationFX);
-                break;
-            case Constants.PHONE:
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("Internal Memory");
-                newInformationFX.setFeature1(((Phone) selectedProducts.get(0)).getInternalMemory().toString());
-                newInformationFX.setFeature2(((Phone) selectedProducts.get(1)).getInternalMemory().toString());
-                if (selectedProducts.size() > 2)
-                    newInformationFX.setFeature3(((Phone) selectedProducts.get(2)).getInternalMemory().toString());
-                informationFXList.add(newInformationFX);
-                break;
-        }
-
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("");
-        informationFXList.add(newInformationFX);
-
-        newInformationFX = new ProductInformationFX();
-        newInformationFX.setFeatureName("Extra Features:");
-        informationFXList.add(newInformationFX);
-
-        int extraFeaturesListIndex = informationFXList.size() - 1;
-
-        if (selectedProducts.get(0).getExtraFeaturesList() != null || !selectedProducts.get(0).getExtraFeaturesList().isEmpty()) {
-            ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(0).getExtraFeaturesList();
-
-            for (ExtraFeature extraFeature : extraFeatures) {
-                newInformationFX = new ProductInformationFX();
-                newInformationFX.setFeatureName("");
-                newInformationFX.setFeature1(extraFeature.getFeatureName());
-                informationFXList.add(newInformationFX);
+                    informationFXList.add(newInformationFX);
+                    break;
+                case Constants.PHONE:
+                    newInformationFX = new ProductInformationFX();
+                    newInformationFX.setFeatureName("Internal Memory");
+                    newInformationFX.setFeature1(((Phone) selectedProducts.get(0)).getInternalMemory().toString());
+                    newInformationFX.setFeature2(((Phone) selectedProducts.get(1)).getInternalMemory().toString());
+                    if (selectedProducts.size() > 2)
+                        newInformationFX.setFeature3(((Phone) selectedProducts.get(2)).getInternalMemory().toString());
+                    informationFXList.add(newInformationFX);
+                    break;
             }
-        }
 
-        if (selectedProducts.get(1).getExtraFeaturesList() != null || !selectedProducts.get(1).getExtraFeaturesList().isEmpty()) {
-            ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(1).getExtraFeaturesList();
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("");
+            informationFXList.add(newInformationFX);
 
-            int i = extraFeaturesListIndex;
+            newInformationFX = new ProductInformationFX();
+            newInformationFX.setFeatureName("Extra Features:");
+            informationFXList.add(newInformationFX);
 
-            for (ExtraFeature extraFeature : extraFeatures) {
-                i++;
-                if (informationFXList.size() >= i + 1) {
-                    newInformationFX = informationFXList.get(i);
-                    newInformationFX.setFeature2(extraFeature.getFeatureName());
-                } else {
+            int extraFeaturesListIndex = informationFXList.size() - 1;
+
+            if (selectedProducts.get(0).getExtraFeaturesList() != null || !selectedProducts.get(0).getExtraFeaturesList().isEmpty()) {
+                ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(0).getExtraFeaturesList();
+
+                for (ExtraFeature extraFeature : extraFeatures) {
                     newInformationFX = new ProductInformationFX();
                     newInformationFX.setFeatureName("");
-                    newInformationFX.setFeature2(extraFeature.getFeatureName());
+                    newInformationFX.setFeature1(extraFeature.getFeatureName());
                     informationFXList.add(newInformationFX);
                 }
             }
-        }
 
-        if (selectedProducts.size() > 2) {
-            if (selectedProducts.get(2).getExtraFeaturesList() != null || !selectedProducts.get(2).getExtraFeaturesList().isEmpty()) {
-                ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(2).getExtraFeaturesList();
+            if (selectedProducts.get(1).getExtraFeaturesList() != null || !selectedProducts.get(1).getExtraFeaturesList().isEmpty()) {
+                ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(1).getExtraFeaturesList();
 
                 int i = extraFeaturesListIndex;
 
@@ -554,140 +536,160 @@ public class Controller {
                     i++;
                     if (informationFXList.size() >= i + 1) {
                         newInformationFX = informationFXList.get(i);
-                        newInformationFX.setFeature3(extraFeature.getFeatureName());
+                        newInformationFX.setFeature2(extraFeature.getFeatureName());
                     } else {
                         newInformationFX = new ProductInformationFX();
                         newInformationFX.setFeatureName("");
-                        newInformationFX.setFeature3(extraFeature.getFeatureName());
+                        newInformationFX.setFeature2(extraFeature.getFeatureName());
                         informationFXList.add(newInformationFX);
                     }
                 }
             }
-        }
 
-        ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
-        ReviewFX newReviewFX;
+            if (selectedProducts.size() > 2) {
+                if (selectedProducts.get(2).getExtraFeaturesList() != null || !selectedProducts.get(2).getExtraFeaturesList().isEmpty()) {
+                    ArrayList<ExtraFeature> extraFeatures = selectedProducts.get(2).getExtraFeaturesList();
 
-        if (selectedProducts.get(0).getReviewList() != null && !selectedProducts.get(0).getReviewList().isEmpty()) {
-            ArrayList<Review> reviews = selectedProducts.get(0).getReviewList();
+                    int i = extraFeaturesListIndex;
 
-            for (Review review : reviews) {
-                newReviewFX = new ReviewFX();
-                String rating = "";
-
-                for (int i = 0; i < review.getRating(); i++) {
-                    rating += "★";
+                    for (ExtraFeature extraFeature : extraFeatures) {
+                        i++;
+                        if (informationFXList.size() >= i + 1) {
+                            newInformationFX = informationFXList.get(i);
+                            newInformationFX.setFeature3(extraFeature.getFeatureName());
+                        } else {
+                            newInformationFX = new ProductInformationFX();
+                            newInformationFX.setFeatureName("");
+                            newInformationFX.setFeature3(extraFeature.getFeatureName());
+                            informationFXList.add(newInformationFX);
+                        }
+                    }
                 }
-
-                for (int i = 0; i < 5 - review.getRating(); i++) {
-                    rating += "☆";
-                }
-
-                newReviewFX.setReview1(rating);
-                newReviewFX.setDescription1(review.getComment());
-                ReviewFXList.add(newReviewFX);
             }
-        }
+            tableViewFeatures.setItems(informationFXList);
+        }).start();
 
-        if (selectedProducts.size() > 1) {
-            int i = 0;
+        // Create new thread to fill review table
+        new Thread(() -> {
+            ObservableList<ReviewFX> ReviewFXList = FXCollections.observableArrayList();
+            ReviewFX newReviewFX;
 
-            if (selectedProducts.get(1).getReviewList() != null && !selectedProducts.get(1).getReviewList().isEmpty()) {
-                ArrayList<Review> reviews = selectedProducts.get(1).getReviewList();
+            if (selectedProducts.get(0).getReviewList() != null && !selectedProducts.get(0).getReviewList().isEmpty()) {
+                ArrayList<Review> reviews = selectedProducts.get(0).getReviewList();
 
                 for (Review review : reviews) {
+                    newReviewFX = new ReviewFX();
+                    String rating = "";
 
-                    if (ReviewFXList.size() > i)
-                    {
-                        newReviewFX = ReviewFXList.get(i);
-                        String rating = "";
-
-                        for (int j = 0; j < review.getRating(); j++) {
-                            rating += "★";
-                        }
-
-                        for (int j = 0; j < 5 - review.getRating(); j++) {
-                            rating += "☆";
-                        }
-
-                        newReviewFX.setReview2(rating);
-
-
-                        newReviewFX.setDescription2(review.getComment());
-                    } else {
-                        newReviewFX = new ReviewFX();
-                        String rating = "";
-
-                        for (int j = 0; j < review.getRating(); j++) {
-                            rating += "★";
-                        }
-
-                        for (int j = 0; j < 5 - review.getRating(); j++) {
-                            rating += "☆";
-                        }
-
-                        newReviewFX.setReview2(rating);
-                        newReviewFX.setDescription2(review.getComment());
-                        ReviewFXList.add(newReviewFX);
+                    for (int i = 0; i < review.getRating(); i++) {
+                        rating += "★";
                     }
-                    i++;
+
+                    for (int i = 0; i < 5 - review.getRating(); i++) {
+                        rating += "☆";
+                    }
+
+                    newReviewFX.setReview1(rating);
+                    newReviewFX.setDescription1(review.getComment());
+                    ReviewFXList.add(newReviewFX);
                 }
             }
 
+            if (selectedProducts.size() > 1) {
+                int i = 0;
 
-        }
+                if (selectedProducts.get(1).getReviewList() != null && !selectedProducts.get(1).getReviewList().isEmpty()) {
+                    ArrayList<Review> reviews = selectedProducts.get(1).getReviewList();
 
-        if (selectedProducts.size() > 2) {
-            int i = 0;
+                    for (Review review : reviews) {
 
-            if (selectedProducts.get(2).getReviewList() != null && !selectedProducts.get(2).getReviewList().isEmpty()) {
-                ArrayList<Review> reviews = selectedProducts.get(2).getReviewList();
+                        if (ReviewFXList.size() > i)
+                        {
+                            newReviewFX = ReviewFXList.get(i);
+                            String rating = "";
 
-                for (Review review : reviews) {
+                            for (int j = 0; j < review.getRating(); j++) {
+                                rating += "★";
+                            }
 
-                    if (ReviewFXList.size() > i)
-                    {
-                        newReviewFX = ReviewFXList.get(i);
-                        String rating = "";
+                            for (int j = 0; j < 5 - review.getRating(); j++) {
+                                rating += "☆";
+                            }
 
-                        for (int j = 0; j < review.getRating(); j++) {
-                            rating += "★";
+                            newReviewFX.setReview2(rating);
+
+
+                            newReviewFX.setDescription2(review.getComment());
+                        } else {
+                            newReviewFX = new ReviewFX();
+                            String rating = "";
+
+                            for (int j = 0; j < review.getRating(); j++) {
+                                rating += "★";
+                            }
+
+                            for (int j = 0; j < 5 - review.getRating(); j++) {
+                                rating += "☆";
+                            }
+
+                            newReviewFX.setReview2(rating);
+                            newReviewFX.setDescription2(review.getComment());
+                            ReviewFXList.add(newReviewFX);
                         }
-
-                        for (int j = 0; j < 5 - review.getRating(); j++) {
-                            rating += "☆";
-                        }
-
-                        newReviewFX.setReview3(rating);
-
-
-                        newReviewFX.setDescription3(review.getComment());
-                    } else {
-                        newReviewFX = new ReviewFX();
-                        String rating = "";
-
-                        for (int j = 0; j < review.getRating(); j++) {
-                            rating += "★";
-                        }
-
-                        for (int j = 0; j < 5 - review.getRating(); j++) {
-                            rating += "☆";
-                        }
-
-                        newReviewFX.setReview3(rating);
-                        newReviewFX.setDescription3(review.getComment());
-                        ReviewFXList.add(newReviewFX);
+                        i++;
                     }
-                    i++;
                 }
+
 
             }
 
+            if (selectedProducts.size() > 2) {
+                int i = 0;
 
-        }
-        tableViewReviews.setItems(ReviewFXList);
+                if (selectedProducts.get(2).getReviewList() != null && !selectedProducts.get(2).getReviewList().isEmpty()) {
+                    ArrayList<Review> reviews = selectedProducts.get(2).getReviewList();
 
-        tableViewFeatures.setItems(informationFXList);
+                    for (Review review : reviews) {
+
+                        if (ReviewFXList.size() > i)
+                        {
+                            newReviewFX = ReviewFXList.get(i);
+                            String rating = "";
+
+                            for (int j = 0; j < review.getRating(); j++) {
+                                rating += "★";
+                            }
+
+                            for (int j = 0; j < 5 - review.getRating(); j++) {
+                                rating += "☆";
+                            }
+
+                            newReviewFX.setReview3(rating);
+
+
+                            newReviewFX.setDescription3(review.getComment());
+                        } else {
+                            newReviewFX = new ReviewFX();
+                            String rating = "";
+
+                            for (int j = 0; j < review.getRating(); j++) {
+                                rating += "★";
+                            }
+
+                            for (int j = 0; j < 5 - review.getRating(); j++) {
+                                rating += "☆";
+                            }
+
+                            newReviewFX.setReview3(rating);
+                            newReviewFX.setDescription3(review.getComment());
+                            ReviewFXList.add(newReviewFX);
+                        }
+                        i++;
+                    }
+                }
+            }
+            tableViewReviews.setItems(ReviewFXList);
+        }).start();
     }
 
     public void getProductsPressed(ActionEvent event) {
