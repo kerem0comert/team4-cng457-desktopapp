@@ -14,12 +14,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The class that handles communication with back-end.
+ */
 public final class Repository {
     private static Repository instance;
 
+    /**
+     * The constructor is private, as the Singleton Pattern is implemented here.
+     */
     private Repository() {
     }
 
+    /**
+     *
+     * @return The singleton repository instance.
+     */
     public static Repository getInstance() {
         if (instance == null) {
             instance = new Repository();
@@ -27,7 +37,12 @@ public final class Repository {
         return instance;
     }
 
-
+    /**
+     * This method opens the necessary HTTPConnection with the back-end server and returns the response in form of
+     * a JSONArray.
+     * @param mainURL is the URL to which the HTTP response will be sent.
+     * @return The JSONArray, containing the HTTP response.
+     */
     private JSONArray getResponseAsJSON(String mainURL) {
         try {
             String response = "";
@@ -51,16 +66,30 @@ public final class Repository {
         }
     }
 
-    /**
-     * This should ideally be done with solutions like UriComponentsBuilder, but the library just could not be
-     * compiled after more an hour of trying. In order to keep my sanity, I went with the ugly implementation.
-     */
 
+    /**
+     * Append arguments one by one to the base URL to build the query, pass if the field is not specified by the user.
+     * This should ideally be done with solutions like UriComponentsBuilder, but the library just could not be
+     * compiled after more an hour of trying. In order to keep my sanity, I went with the ugly implementation
+     * @param fieldName The fieldName specified in the query
+     * @param o is any value of type object, which is included in the query.
+     * @return fieldName=o& or empty string.
+     */
     private String appendNonNull(String fieldName, Object o) {
         return o == null ? "" : fieldName + "=" + o + "&";
     }
 
-    //These are the fields of the parent ProductFX, that is shared by both phone and computer
+
+    /**
+     * These are the fields of the parent ProductFX, that is shared by both phone and computer.
+     * They can be present in both types of queries.
+     * @param type The path to which the query is made. This will decide which table/tables will be used in back-end.
+     * @param brand The requested brand as String.
+     * @param batteryLife of type Range, which includes min and max values.
+     * @param screenSize of type Range, which includes min and max values.
+     * @param priceRange of type Range, which includes min and max values.
+     * @return the URL dynamically built with the query parameters.
+     */
     private StringBuilder appendBaseFields(String type, String brand, Range batteryLife, String screenSize,
                                            Range priceRange) {
         StringBuilder url = new StringBuilder(Constants.BASE_URL + type);
@@ -123,6 +152,12 @@ public final class Repository {
         return prod;
     }
 
+
+    /**
+     * Gets the data into a JSONArray from baseUrl/getAllBrands. It then iterates over the array to fill
+     * the brandFXList to be displayed in GUI table.
+     * @return the list of brand rows.
+     */
     public ObservableList<BrandFX> getAllBrandsFX() {
         ObservableList<BrandFX> brandFXList = FXCollections.observableArrayList();
 
@@ -141,6 +176,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ScreenSizeFX> getAllScreenSizesForComputersFX() {
         ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
 
@@ -159,6 +198,12 @@ public final class Repository {
 
     }
 
+    /**
+     * Construct the URL necessary to send a request for screenResolutions. The response is returned as a JSONArray,
+     * which is then mapped to an ObservableList of {@link ScreenResolutionFX} objects that can be used by the
+     * table view
+     * @return a list of {@link ScreenResolutionFX} objects for table view to display as a column.
+     */
     public ObservableList<ScreenResolutionFX> getAllScreenResolutionsForComputersFX() {
         ObservableList<ScreenResolutionFX> screenResolutionFXList = FXCollections.observableArrayList();
 
@@ -178,6 +223,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ProcessorFX> getAllProcessorsForComputersFX() {
         ObservableList<ProcessorFX> ProcessorFXList = FXCollections.observableArrayList();
 
@@ -197,6 +246,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ScreenSizeFX> getAllScreenSizesForPhonesFX() {
         ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
 
@@ -216,6 +269,16 @@ public final class Repository {
 
     }
 
+    /**
+     * The method constructs the url for the filtered computers to be retrieved and the retrieval is made into
+     * a JSON Array, which is parsed to list of {@link Phone} objects.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param internalMemory
+     * @return
+     */
     public ArrayList<Phone> getPhonesAsModel(String brand, Range batteryLife, String screenSize,
                                              Range priceRange, Range internalMemory) {
         StringBuilder url = appendBaseFields(Constants.GET_PHONE, brand, batteryLife, screenSize, priceRange);
@@ -238,6 +301,17 @@ public final class Repository {
         return phones;
     }
 
+    /**
+     *
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param internalMemory
+     * @return
+     */
     public ObservableList<PhoneFX> getPhonesFX(String brand, Range batteryLife, String screenSize,
                                                Range priceRange, Range internalMemory) {
         ObservableList<PhoneFX> phonesFX = FXCollections.observableArrayList();
@@ -258,6 +332,21 @@ public final class Repository {
         return phonesFX;
     }
 
+    /**
+     * The method constructs the url for the filtered computers to be retrieved and the retrieval is made into
+     * a JSON Array, which is parsed to list of {@link Computer} objects.
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param screenResolution
+     * @param processor
+     * @param memory
+     * @param storageCapacity
+     * @return an arrayList of computers to be used by the tableView.
+     */
     public ArrayList<Computer> getComputersAsModel(String brand, Range batteryLife, String screenSize,
                                                    Range priceRange, String screenResolution, String processor, Range memory,
                                                    Range storageCapacity) {
@@ -294,6 +383,21 @@ public final class Repository {
         return computers;
     }
 
+    /**
+     * This method iterates through the computers list and creates the Observable list that is used by
+     * the tableView.
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param screenResolution
+     * @param processor
+     * @param memory
+     * @param storageCapacity
+     * @return an observableList to be used by the tableView that contains details for each filtered computer.
+     */
     public ObservableList<ComputerFX> getComputersFX(String brand, Range batteryLife, String screenSize,
                                                      Range priceRange, String screenResolution, String processor, Range memory,
                                                      Range storageCapacity) {
