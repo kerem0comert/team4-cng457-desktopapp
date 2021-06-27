@@ -709,8 +709,13 @@ public class Controller {
         tableViewFeatures.setItems(informationFXList);
     }
 
+    /**
+     * This method is called from the getProducts button in Gui.fxml file. It will retrieve the columns necessary
+     * for computers and phones from back-end depending on which filter is selected.
+     * @param event is the default argument to be provided by the framework when a method is called from XML via
+     * data-binding, but we needn't use it here.
+     */
     public void getProductsPressed(ActionEvent event) {
-        Range priceRange = new Range(getValue(textFieldPriceMin), getValue(textFieldPriceMax));
         switch (selectedFilter) {
             case Constants.COMPUTER:
                 tableViewProducts.setItems(FXCollections.observableArrayList(Repository.getInstance().getComputersFX(
@@ -737,7 +742,8 @@ public class Controller {
 
     /**
      *
-     * @param event
+     * @param event is the default argument to be provided by the framework when a method is called from XML via
+     * data-binding, but we needn't use it here.
      */
     public void sortByPriceAction(ActionEvent event) {
 

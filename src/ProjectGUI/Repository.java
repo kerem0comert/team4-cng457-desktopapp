@@ -152,6 +152,12 @@ public final class Repository {
         return prod;
     }
 
+
+    /**
+     * Gets the data into a JSONArray from baseUrl/getAllBrands. It then iterates over the array to fill
+     * the brandFXList to be displayed in GUI table.
+     * @return the list of brand rows.
+     */
     public ObservableList<BrandFX> getAllBrandsFX() {
         ObservableList<BrandFX> brandFXList = FXCollections.observableArrayList();
 
@@ -170,6 +176,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ScreenSizeFX> getAllScreenSizesForComputersFX() {
         ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
 
@@ -188,6 +198,12 @@ public final class Repository {
 
     }
 
+    /**
+     * Construct the URL necessary to send a request for screenResolutions. The response is returned as a JSONArray,
+     * which is then mapped to an ObservableList of {@link ScreenResolutionFX} objects that can be used by the
+     * table view
+     * @return a list of {@link ScreenResolutionFX} objects for table view to display as a column.
+     */
     public ObservableList<ScreenResolutionFX> getAllScreenResolutionsForComputersFX() {
         ObservableList<ScreenResolutionFX> screenResolutionFXList = FXCollections.observableArrayList();
 
@@ -207,6 +223,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ProcessorFX> getAllProcessorsForComputersFX() {
         ObservableList<ProcessorFX> ProcessorFXList = FXCollections.observableArrayList();
 
@@ -226,6 +246,10 @@ public final class Repository {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservableList<ScreenSizeFX> getAllScreenSizesForPhonesFX() {
         ObservableList<ScreenSizeFX> screenSizeFXList = FXCollections.observableArrayList();
 
@@ -245,6 +269,16 @@ public final class Repository {
 
     }
 
+    /**
+     * The method constructs the url for the filtered computers to be retrieved and the retrieval is made into
+     * a JSON Array, which is parsed to list of {@link Phone} objects.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param internalMemory
+     * @return
+     */
     public ArrayList<Phone> getPhonesAsModel(String brand, Range batteryLife, String screenSize,
                                              Range priceRange, Range internalMemory) {
         StringBuilder url = appendBaseFields(Constants.GET_PHONE, brand, batteryLife, screenSize, priceRange);
@@ -267,6 +301,17 @@ public final class Repository {
         return phones;
     }
 
+    /**
+     *
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param internalMemory
+     * @return
+     */
     public ObservableList<PhoneFX> getPhonesFX(String brand, Range batteryLife, String screenSize,
                                                Range priceRange, Range internalMemory) {
         ObservableList<PhoneFX> phonesFX = FXCollections.observableArrayList();
@@ -287,6 +332,21 @@ public final class Repository {
         return phonesFX;
     }
 
+    /**
+     * The method constructs the url for the filtered computers to be retrieved and the retrieval is made into
+     * a JSON Array, which is parsed to list of {@link Computer} objects.
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param screenResolution
+     * @param processor
+     * @param memory
+     * @param storageCapacity
+     * @return an arrayList of computers to be used by the tableView.
+     */
     public ArrayList<Computer> getComputersAsModel(String brand, Range batteryLife, String screenSize,
                                                    Range priceRange, String screenResolution, String processor, Range memory,
                                                    Range storageCapacity) {
@@ -323,6 +383,21 @@ public final class Repository {
         return computers;
     }
 
+    /**
+     * This method iterates through the computers list and creates the Observable list that is used by
+     * the tableView.
+     * The params are not explained seperately, as they are simply parameters present in the database that will
+     * be mapped to columns in tableView.
+     * @param brand
+     * @param batteryLife
+     * @param screenSize
+     * @param priceRange
+     * @param screenResolution
+     * @param processor
+     * @param memory
+     * @param storageCapacity
+     * @return an observableList to be used by the tableView that contains details for each filtered computer.
+     */
     public ObservableList<ComputerFX> getComputersFX(String brand, Range batteryLife, String screenSize,
                                                      Range priceRange, String screenResolution, String processor, Range memory,
                                                      Range storageCapacity) {

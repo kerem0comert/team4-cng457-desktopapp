@@ -11,6 +11,9 @@ import javafx.stage.Stage;
  * @author      Kerem Cömert
  * @author      Yiğit Berkay Aslı
  * The main entry point of JavaFX.
+ * The javaDoc is prepared with regards to:
+ *  @see <a href="https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html">Oracle Javadoc</a>
+ *  As such, we did not create JavaDoc comments for models and for every single field, as they would be redundant.
  */
 public class Main extends Application {
     private Controller controller;
